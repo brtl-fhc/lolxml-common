@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns="http://lolxml.org"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://lolxml.org lolxml.xsd " >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
 	<sym id="lugar_aqui"><switch>
 			<case><eval idref="espana"/></case>
@@ -26,13 +25,15 @@
 			<case>la ESO</case>
 			<case>la recaudación</case>
 			<case>la sociedad española</case>
-			<case>la juventud</case>
 			<case>la casta política</case>
 			<case>la partitocracia</case>
 			<case>la Corona</case>
 			<case>el funcionariado</case>
 			<case>la propaganda</case>
 			<case>la demagogia</case>
+			<case>la LOE</case>
+			<case>el caos inmigratorio</case>
+			<case>el gasto público</case>
 		</switch></sym>
 	
 	<sym id="el_ismo_mal"><switch>
@@ -76,29 +77,34 @@
 		<case>ignorante</case>
 		<case>totalitario</case>
 		<case>demagogo</case>
+		<case>terrorista</case>
+		<case>genocida</case>
+		<case>partitocrático</case>
 	</switch></sym>
 	
 	<sym id="medidas"><switch>
-		<case><eval idref="medidas_verbo"/> <eval idref="medidas_nombre"/></case>
-		<case><eval idref="lugares_verbo"/><switch><case></case><case> a <eval idref="espana"/></case></switch> <eval idref="lugar_otro"/></case>
+		<case><eval idref="reformas_verbo"/> <eval idref="medidas_nombre"/></case>
+		<case><eval idref="lugares_verbo"/><switch><case></case><case> para <eval idref="espana"/></case></switch> <eval idref="lugar_otro"/></case>
 		<case><eval idref="verbo_ataque"/> <eval idref="problema"/></case>
 	</switch></sym>
 	
-	<sym id="medidas_verbo"><switch>
+	<sym id="reformas_verbo"><switch>
 		<case>privatizar</case>
 		<case>liberalizar</case>
 		<case>desmantelar</case>
 		<case>reformar</case>
+		<case>refundar</case>
 	</switch></sym>
 	
 	<sym id="medidas_nombre"><switch>
-		<case>el estado autonómico</case>
+		<case>este estado autonómico</case>
 		<case>la educación pública</case>
 		<case>la sanidad</case>
 		<case>los consejos insulares</case>
 		<case>los municipios</case>
 		<case>los partidos</case>
 		<case>las pagas extra</case>
+		<case>este Estado del Bienestar</case>
 	</switch></sym>
 
 	<sym id="verbo_ataque"><switch>
@@ -117,7 +123,9 @@
 		<case>Llamazares</case>
 		<case>Zapatero</case>
 		<case>Bono</case>
+		<case>Sarkozy</case>
 		<case><switch><case></case><case>Don </case></switch>Juan Carlos I</case>
+		<case>Mohamed VI</case>
 	</switch></sym>
 
 	<sym id="personaje_bueno"><switch>
@@ -157,11 +165,13 @@
 		<case>el PSOE</case>
 		<case>ERC</case>
 		<case>el 15-M</case>
-		<case>Izquierda Hundida</case>
+		<case>Izquierda Unida</case>
+		<case>CIU</case>
 		<case>la Casa Real</case>
 		<case>UGT</case>
 		<case>CCOO</case>
 		<case>Bildu</case>
+		<case>Amaiur</case>
 	</switch></sym>
 	
 	<sym id="problema"><switch>
@@ -197,9 +207,6 @@
 		<case>se instaurase el</case>
 	</switch></sym>
 	
-	<sym id="haciendo_mal"><switch>
-		<case></case>
-	</switch></sym>
 	
 	<sym id="hace_mal"><switch>
 		<case>carece de propuestas reales para <eval idref="lugar_aqui"/></case>
@@ -212,6 +219,7 @@
 		<case>nunca apostará por el <eval idref="nombre_bueno"/></case>
 		<case>está islamizando <eval idref="lugar_aqui"/></case>
 		<case>demonizando el <eval idref="nombre_bueno"/></case>
+		<case>está al servicio d<eval idref="el_ismo_mal"/></case>
 	</switch></sym>
 	
 	<sym id="clases"><switch>
@@ -219,6 +227,9 @@
 		<case>la clase media</case>
 		<case>los trabajadores</case>
 		<case>los asalariados</case>
+		<case>los pescadores</case>
+		<case>las familias</case>
+		<case>los contribuyentes</case>
 	</switch></sym>
 	
 
@@ -275,6 +286,7 @@
 		<case>los visigodos</case>
 		<case>Al-Andalus</case>
 		<case>Hispania</case>
+		<case>la Edad Media</case>
 		<case><eval idref="anno"/></case>
 	</switch></sym>
 
@@ -302,10 +314,39 @@
 	<sym id="preguntas"><switch>
 		<case>¿Qué diferencia hay entre <eval idref="personaje_malo"/> y <eval idref="personaje_malo"/>? <switch><case></case><case>Tan <eval idref="adj_malo"/> uno como otro.</case></switch></case>
 		<case>¿Es normal que <eval idref="clases"/> <eval idref="confien_en"/> <eval idref="grupo_malo"/>?</case>
-		<case>¿Acaso en <eval idref="epoca" /> <eval idref="prob_no"/> era como hoy?<switch><case></case><case> No</case><case> Evidentemente no</case></switch></case>
+		<case>¿Acaso en <eval idref="epoca" /> <eval idref="prob_no"/> era como hoy?<switch><case></case><case> No.</case><case> Evidentemente no.</case></switch></case>
 		<case>¿Cómo es posible que <eval idref="lugar_otro"/> sea independiente?</case>
 		<case>¿Hasta cuándo se <switch><case>permitirá</case><case>tolerará</case></switch> <eval idref="el_ismo_mal"/><switch><case></case><case> <eval idref="adj_malo"/></case></switch><switch><case> <eval idref="antes_de"/></case><case></case></switch>?</case>
 		<case>¿Cuánto habrá que esperar a <eval idref="medidas"/>?</case>
+	</switch></sym>
+	
+	<sym id="culpable"><switch>
+		<case><eval idref="personaje_malo"/></case>
+		<case><eval idref="medidas_nombre"/></case>
+	</switch></sym>
+	
+	<sym id="los_enemigos"><switch>
+		<case>Marruecos</case>
+		<case>la burocracia europea</case>
+		<case>el eje francoalemán</case>
+		<case>los invasores</case>
+		<case>los musulmanes</case>
+		<case>los sarracenos</case>
+		<case>los maestros</case>
+	</switch></sym>
+	
+	<sym id="verbo_ha_claudicado"><switch>
+		<case>ha claudicado ante</case>
+		<case>se ha esclavizado por</case>
+		<case>se ha rendido a</case>
+		<case>se ha vendido a</case>
+		<case>se ha entregado a</case>
+	</switch></sym>
+	
+	<sym id="desgracia"><switch>
+		<case><eval idref="lugar_aqui"/> <eval idref="verbo_ha_claudicado"/> <eval idref="los_enemigos"/></case>
+		<case>se <eval idref="verbo_ataque"/>á el <eval idref="nombre_bueno"/></case>
+		<case>no se va a <eval idref="reformas_verbo"/> <eval idref="prob_no"/></case>
 	</switch></sym>
 	
 	<sym id="habria_sabido"><switch>
@@ -326,6 +367,7 @@
 			<case><eval idref="hay_que"/> <eval idref="medidas"/>.</case>
 			<case>El <eval idref="nombre_bueno"/> es una seña de identidad de <eval idref="lugar_aqui"/> desde <eval idref="epoca"/>.</case>
 			<case><eval idref="preguntas"/></case>
+			<case>Por culpa de <eval idref="culpable"/>, <eval idref="desgracia"/>.</case>
 </switch>
 </sym>
 
