@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org lolxml.xsd " >
+	
+	<sym id="lugar_aqui"><switch>
+			<case><eval idref="espana"/></case>
+			<case>Baleares</case>
+			<case>Europa</case>
+			<case>Mallorca</case>
+			<case>Palma</case>
+			<case>Castilla</case>
+			<case>La Península Ibérica</case>
+		</switch></sym>
+	
+	<sym id="espana"><switch>
+		<case>España</case>
+		<case>La Nación Española</case>
+	</switch></sym>
+	
+	<sym id="prob_no"><switch>
+			<case>el paro</case>
+			<case>el déficit</case>
+			<case>la economía</case>
+			<case>la inflación</case>
+			<case>la ESO</case>
+			<case>la recaudación</case>
+			<case>la sociedad española</case>
+			<case>la juventud</case>
+			<case>la casta política</case>
+			<case>la partitocracia</case>
+			<case>la Corona</case>
+			<case>el funcionariado</case>
+			<case>la propaganda</case>
+			<case>la demagogia</case>
+		</switch></sym>
+	
+	<sym id="el_ismo_mal"><switch>
+			<case>el socialismo</case>
+			<case>el marxismo</case>
+			<case>el progresismo</case>
+			<case>el islam<switch><case></case><case>ismo</case></switch></case>
+			<case>el bolchevismo</case>
+			<case>el igualitarismo</case>
+	</switch></sym>
+	
+	<sym id="adj_malo"><eval idref="adj_malo_simple"/><switch>
+		<case></case>
+		<case> y <eval idref="adj_malo_simple"/></case>
+	</switch></sym>
+	
+	<sym id="adj_malo_simple"><switch>
+		<case>maoista</case>
+		<case>liberticida</case>
+		<case>cristianófobo</case>
+		<case>hispanófobo</case>
+		<case>subvencionado</case>
+		<case>criminal</case>
+		<case>invasor</case>
+		<case>mahometano</case>
+		<case>siniestro</case>
+		<case>inmoral</case>
+		<case>mediocre</case>
+		<case>mentiroso</case>
+		<case>degenerado</case>
+		<case>patético</case>
+		<case>robaperas</case>
+		<case>saltatapias</case>
+		<case>miserable</case>
+		<case>parasitario</case>
+		<case>embustero</case>
+		<case>traidor</case>
+		<case>pijoprogre</case>
+		<case>masónico</case>
+		<case>comunista</case>
+		<case>ignorante</case>
+		<case>totalitario</case>
+		<case>demagogo</case>
+	</switch></sym>
+	
+	<sym id="medidas"><switch>
+		<case><eval idref="medidas_verbo"/> <eval idref="medidas_nombre"/></case>
+		<case><eval idref="lugares_verbo"/><switch><case></case><case> a <eval idref="espana"/></case></switch> <eval idref="lugar_otro"/></case>
+		<case><eval idref="verbo_ataque"/> <eval idref="problema"/></case>
+	</switch></sym>
+	
+	<sym id="medidas_verbo"><switch>
+		<case>privatizar</case>
+		<case>liberalizar</case>
+		<case>desmantelar</case>
+		<case>reformar</case>
+	</switch></sym>
+	
+	<sym id="medidas_nombre"><switch>
+		<case>el estado autonómico</case>
+		<case>la educación pública</case>
+		<case>la sanidad</case>
+		<case>los consejos insulares</case>
+		<case>los municipios</case>
+		<case>los partidos</case>
+		<case>las pagas extra</case>
+	</switch></sym>
+
+	<sym id="verbo_ataque"><switch>
+		<case>erradicar</case>
+		<case>aplastar</case>
+		<case>destruir</case>
+		<case>suprimir</case>
+		<case>aniquilar</case>
+		<case>exterminar</case>
+		<case>asfixiar</case>
+		<case>extirpar</case>
+	</switch></sym>
+
+	<sym id="personaje_malo"><switch>
+		<case>Rubalcaba</case>
+		<case>Llamazares</case>
+		<case>Zapatero</case>
+		<case>Bono</case>
+		<case><switch><case></case><case>Don </case></switch>Juan Carlos I</case>
+	</switch></sym>
+
+	<sym id="personaje_bueno"><switch>
+		<case>Jaime de Andrade</case>
+		<case>Don Sixto Enrique de Borbón</case>
+		<case>Felipe IV</case>
+		<case>Felipe III</case>
+		<case>Anders Breivik</case>
+		<case>Cánovas del Castillo</case>
+		<case>Carlos María Isidro</case>
+		<case>Josep Anglada</case>
+	</switch></sym>
+	
+	<sym id="nombre_bueno"><switch>
+		<case>sufragio censitario</case>
+		<case>cheque escolar</case>
+		<case>patriotismo</case>
+		<case>catolicismo</case>
+		<case>cristianismo</case>
+		<case>carlismo</case>
+	</switch></sym>
+	
+	<sym id="insulto_grupo"><switch>
+		<case>ladrones</case>
+		<case>cucarachas <switch><case> socialistas</case><case></case></switch></case>
+		<case>traidores</case>
+		<case>parásitos</case>
+		<case>corruptos</case>
+	</switch></sym>
+	
+	<sym id="grupo_malo"><switch>
+		<case><eval idref="grupo_malo_simple"/></case>
+		<case><eval idref="insulto_grupo"/> como <eval idref="grupo_malo_simple"/></case>
+	</switch></sym>
+	
+	<sym id="grupo_malo_simple"><switch>
+		<case>el PSOE</case>
+		<case>ERC</case>
+		<case>el 15-M</case>
+		<case>Izquierda Hundida</case>
+		<case>la Casa Real</case>
+		<case>UGT</case>
+		<case>CCOO</case>
+		<case>Bildu</case>
+	</switch></sym>
+	
+	<sym id="problema"><switch>
+		<case><eval idref="grupo_malo_simple"></eval></case>
+		<case><eval idref="el_ismo_mal"/></case></switch></sym>
+	
+	<sym id="lugares_verbo"><switch>
+		<case>incorporar</case>
+		<case>anexionar</case>
+		<case>recuperar</case>
+		<case>reclamar</case>
+		<case>tomar</case>
+	</switch></sym>
+
+	<sym id="lugar_otro"><switch>
+		<case>la región de <eval idref="lugar_otro_simple"/></case>
+		<case>la región rebelde de <eval idref="lugar_otro_simple"/></case>
+		<case><eval idref="lugar_otro_simple"/></case>
+	</switch></sym>
+		
+	<sym id="lugar_otro_simple"><switch>
+		<case>Marruecos</case>
+		<case>Gibraltar</case>
+		<case>Rosellón</case>
+		<case>Portugal</case>
+		<case>Guinea</case>
+		<case>El Sahara</case>
+	</switch></sym>
+
+	<sym id="hubiera"><switch>
+		<case>hubiera</case>
+		<case>se implantara el</case>
+		<case>se instaurase el</case>
+	</switch></sym>
+	
+	<sym id="haciendo_mal"><switch>
+		<case></case>
+	</switch></sym>
+	
+	<sym id="hace_mal"><switch>
+		<case>carece de propuestas reales para <eval idref="lugar_aqui"/></case>
+		<case>es una lacra para <eval idref="lugar_aqui"/></case>
+		<case>es culpable de entregar <eval idref="lugar_aqui"/> a manos d<eval idref="el_ismo_mal"/></case>
+		<case>insulta a la inteligencia</case>
+		<case>roba a <eval idref="clases"/></case>
+		<case>es una afrenta a <eval idref="lugar_aqui"/></case>
+		<case>no va a <eval idref="medidas"/></case>
+		<case>nunca apostará por el <eval idref="nombre_bueno"/></case>
+		<case>está islamizando <eval idref="lugar_aqui"/></case>
+		<case>demonizando el <eval idref="nombre_bueno"/></case>
+	</switch></sym>
+	
+	<sym id="clases"><switch>
+		<case>los obreros</case>
+		<case>la clase media</case>
+		<case>los trabajadores</case>
+		<case>los asalariados</case>
+	</switch></sym>
+	
+
+	<sym id="lugar_es"><switch>
+		<case>debe formar parte de <eval idref="espana"/></case>
+		<case>debe ser territorio español</case>
+		<case>es territorio español</case>
+		<case>es territorio español desde <eval idref="epoca"/></case>
+		<case>forma parte del espacio vital de <eval idref="espana"/></case>
+		<case>forma parte del espacio vital de <eval idref="espana"/> desde <eval idref="epoca"/></case>
+		<case>y <eval idref="espana"/> son una unidad de destino</case>
+		<case>y <eval idref="lugar_otro"/> son una unidad de destino con <eval idref="espana"/></case>
+	</switch></sym>
+		
+	<sym id="v_corregir"><switch>
+		<case>corregir</case>
+		<case>remediar</case>
+		<case>solucionar</case>
+		<case>encaminar</case>
+	</switch></sym>
+	
+	<sym id="el_problema_de"><switch>
+		<case>El problema de</case>
+		<case>El mayor problema de</case>
+		<case>La lacra de</case>
+		<case>La lacra más grave de</case>
+		<case>El fracaso de</case>
+	</switch></sym>
+	
+	<sym id="me_indigna"><switch>
+		<case>Me produce repulsa</case>
+		<case>A mí me indigna</case>
+		<case>Lo que me indigna es</case>
+		<case>Lástima</case>
+	</switch></sym>
+	
+	
+	<sym id="digito"><switch>
+		<case>0</case>
+		<case>1</case>
+		<case>2</case>
+		<case>3</case>
+		<case>4</case>
+		<case>5</case>
+		<case>6</case>
+		<case>7</case>
+		<case>8</case>
+		<case>9</case>
+	</switch></sym>
+	
+	<sym id="anno">1<eval idref="digito"/><eval idref="digito"/><eval idref="digito"/></sym>
+	
+	<sym id="epoca"><switch>
+		<case>los visigodos</case>
+		<case>Al-Andalus</case>
+		<case>Hispania</case>
+		<case><eval idref="anno"/></case>
+	</switch></sym>
+
+	<sym id="hay_que"><switch>
+		<case>Hay que</case>
+		<case>Es necesario</case>
+		<case>Es hora de</case>
+		<case>Ya va siendo hora de</case>
+		<case>Se debe reformar la ley para</case>
+		<case>Se debe cambiar la Constitución para</case>
+	</switch></sym>
+	
+	<sym id="antes_de"><switch>
+		<case>antes de acabar como <eval idref="lugar_otro"/></case>
+		<case>antes de que terminemos como <eval idref="lugar_otro"/></case>
+	</switch></sym>
+	
+	<sym id="confien_en"><switch>
+		<case>confíen en</case>
+		<case>apoyen a</case>
+		<case>crean lo que dice</case>
+		<case>voten a</case>
+	</switch></sym>
+	
+	<sym id="preguntas"><switch>
+		<case>¿Qué diferencia hay entre <eval idref="personaje_malo"/> y <eval idref="personaje_malo"/>? <switch><case></case><case>Tan <eval idref="adj_malo"/> uno como otro.</case></switch></case>
+		<case>¿Es normal que <eval idref="clases"/> <eval idref="confien_en"/> <eval idref="grupo_malo"/>?</case>
+		<case>¿Acaso en <eval idref="epoca" /> <eval idref="prob_no"/> era como hoy?<switch><case></case><case> No</case><case> Evidentemente no</case></switch></case>
+		<case>¿Cómo es posible que <eval idref="lugar_otro"/> sea independiente?</case>
+		<case>¿Hasta cuándo se <switch><case>permitirá</case><case>tolerará</case></switch> <eval idref="el_ismo_mal"/><switch><case></case><case> <eval idref="adj_malo"/></case></switch><switch><case> <eval idref="antes_de"/></case><case></case></switch>?</case>
+		<case>¿Cuánto habrá que esperar a <eval idref="medidas"/>?</case>
+	</switch></sym>
+	
+	<sym id="habria_sabido"><switch>
+		<case>habría sabido</case>
+		<case>habría pedido</case>
+		<case>no hubiera dudado en</case>
+	</switch></sym>
+
+	<sym id="tuit"><switch>
+			<case><eval idref="el_problema_de"/> <eval idref="lugar_aqui"/> no es <eval idref="prob_no"/>, sino <eval idref="problema"/>.</case>
+			<case><eval idref="hay_que"/> <eval idref="verbo_ataque"/> <eval idref="el_ismo_mal"/> <eval idref="adj_malo"></eval>.</case>
+			<case>Solo al <eval idref="medidas"/> se podrá <eval idref="verbo_ataque"/> <eval idref="el_ismo_mal"/>.</case>
+			<case>El <eval idref="adj_malo"/> <eval idref="personaje_malo"/> <eval idref="hace_mal"/>.</case>
+			<case>Si en <eval idref="lugar_aqui"/> <eval idref="hubiera"/> <eval idref="nombre_bueno"></eval>, se <eval idref="verbo_ataque"/>ía <eval idref="problema"/>.</case>
+			<case><eval idref="personaje_bueno"/> <eval idref="habria_sabido"/> <eval idref="medidas"/><switch><case></case><case> para <eval idref="v_corregir"/> <eval idref="prob_no"/></case></switch>.</case>
+			<case><eval idref="lugar_otro_simple"/> <eval idref="lugar_es"/>.</case>
+			<case><eval idref="me_indigna"/> que <eval idref="prob_no"/> esté en manos de <switch><case>un</case><case>alguien tan</case></switch> <eval idref="adj_malo"/> como <eval idref="personaje_malo"/>.</case>
+			<case><eval idref="hay_que"/> <eval idref="medidas"/>.</case>
+			<case>El <eval idref="nombre_bueno"/> es una seña de identidad de <eval idref="lugar_aqui"/> desde <eval idref="epoca"/>.</case>
+			<case><eval idref="preguntas"/></case>
+</switch>
+</sym>
+
+	<eval idref="tuit"/>
+</grammar>

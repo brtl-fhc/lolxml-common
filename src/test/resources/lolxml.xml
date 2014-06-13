@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org lolxml.xsd ">
+
+  
+
+  <var id="idvalue2">
+    <switch random="false">
+      <case test=""/>
+    </switch>
+  </var>
+  <eval idref="idvalue0"/>
+</grammar>

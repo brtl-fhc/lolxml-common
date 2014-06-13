@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://lolxml.org"
+	xmlns:lol="http://lolxml.org" elementFormDefault="qualified">
+
+	<!-- Support lookup data (optional) -->
+	
+	<element name="data">
+		<complexType>
+			<sequence>
+				<any namespace="##any" processContents="lax"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- Template for mixed element (right term of production)  -->
+
+	<complexType name="rightElement" mixed="true">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<choice>
+				<element ref="lol:switch" />
+				<element ref="lol:eval" />
+			</choice>
+		</sequence>
+	</complexType>
+
+
+	<!-- Symbols (terminal and non-terminal) -->
+	
+	<element name="sym">
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="id" use="required" type="ID" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+
+	<!-- Random chooser for production rules. -->
+	
+	<element name="switch">
+		<complexType>
+			<sequence>
+				<element name="case" minOccurs="1" maxOccurs="unbounded" type="lol:rightElement"/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<!-- Evaluation: references symbols, vars and expressions-->
+
+	<element name="eval">
+		<complexType>
+			<attribute name="idref" type="IDREF" use="required"/>
+		</complexType>
+	</element>
+	
+	<!-- Evaluates XPath expression in @value (using data as context), or 
+		nested content if return is empty, there's no data or XPath is not
+		supported)
+	-->
+	<element name="exp" >
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="value" type="normalizedString" use="required"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<!-- Vars store result of evaluations, allowing reuse -->
+	
+	<element name="var">
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="id" type="ID" use="required" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<!-- Root element. Grammar= data*, sym+, var*, eval -->
+	
+	<element name="grammar">
+		<complexType>
+			<sequence>
+				<element ref="lol:data" minOccurs="0" maxOccurs="1"/>
+				<element ref="lol:sym" minOccurs="1" maxOccurs="unbounded" />
+				<element ref="lol:var" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="lol:eval" maxOccurs="1" minOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>
