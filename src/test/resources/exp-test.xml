@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+  <lol:data>
+      <animal name="duck"><sound>quack</sound></animal>
+  </lol:data>
+  
+  <lol:sym id="root">
+    <lol:exp id="animalName" value="animal/@name"/>
+    <lol:exp id="animalSound" value="animal/sound"/>
+    Old MacDonald had a farm, E-I-E-I-O,
+    And on that farm he had a <lol:eval idref="animalName"/>, E-I-E-I-O,
+    With a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/> here and a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/> there
+    Here a <lol:eval idref="animalSound"/>, there a <lol:eval idref="animalSound"/>, everywhere a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/>
+    Old MacDonald had a farm, E-I-E-I-O. 
+  </lol:sym>
+      
+  <lol:eval idref="root"/>
+
+</lol:grammar>
