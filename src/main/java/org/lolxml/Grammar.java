@@ -57,7 +57,7 @@ public class Grammar extends GrammarNode{
 	void eval(Writer out) {
 		reset();
 		// Execute last eval (should be only one)
-		NodeList nl=((Element)xmlNode).getElementsByTagName(TAG_EVAL);
+		NodeList nl=((Element)xmlNode).getElementsByTagNameNS(NAMESPACE,TAG_EVAL);
 		Element el=(Element)nl.item(nl.getLength()-1);
 		Eval eval=(Eval)el.getUserData(KEY_GRAMMARNODE);
 		if (eval!=null)

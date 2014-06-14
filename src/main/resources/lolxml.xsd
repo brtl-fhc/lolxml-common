@@ -17,6 +17,7 @@
 	<complexType name="rightElement" mixed="true">
 		<sequence minOccurs="0" maxOccurs="unbounded">
 			<choice>
+				<element ref="lol:exp" />
 				<element ref="lol:switch" />
 				<element ref="lol:eval" />
 			</choice>
@@ -63,6 +64,7 @@
 		<complexType>
 			<complexContent>
 				<extension base="lol:rightElement">
+					<attribute name="id" type="ID" use="required" />
 					<attribute name="value" type="normalizedString" use="required"/>
 				</extension>
 			</complexContent>

@@ -27,9 +27,12 @@ public abstract class GrammarNode {
 
 	public static final String KEY_GRAMMARNODE="grammarNode";
 	
+	public static final String NAMESPACE = "http://lolxml.org";
+	
 	protected boolean mixed;
 	protected Node xmlNode;
 	protected List<GrammarNode> children;
+	protected boolean autoEval=true;
 	
 	protected GrammarNode(Node xmlNode){
 		this.xmlNode=xmlNode;
@@ -72,20 +75,23 @@ public abstract class GrammarNode {
 	
 	private static GrammarNode parseElement(Element el){
 		GrammarNode gn=null;
-		if (TAG_CASE.equals(el.getTagName())){
+		String sLocalName = el.getLocalName();
+		if (TAG_CASE.equals(sLocalName)){
 			gn=new Case(el);
-		}else if (TAG_DATA.equals(el.getTagName())){
+		}else if (TAG_DATA.equals(sLocalName)){
 			gn=new Data(el);
-		}else if (TAG_EVAL.equals(el.getTagName())){
+		}else if (TAG_EVAL.equals(sLocalName)){
 			gn=new Eval(el);
-		}else if (TAG_GRAMMAR.equals(el.getTagName())){
+		}else if (TAG_GRAMMAR.equals(sLocalName)){
 			gn=new Grammar(el);
-		}else if (TAG_SWITCH.equals(el.getTagName())){
+		}else if (TAG_SWITCH.equals(sLocalName)){
 			gn=new Switch(el);
-		}else if (TAG_SYM.equals(el.getTagName())){
+		}else if (TAG_SYM.equals(sLocalName)){
 			gn=new Sym(el);
-		}else if (TAG_VAR.equals(el.getTagName())){
+		}else if (TAG_VAR.equals(sLocalName)){
 			gn=new Var(el);
+		}else if (TAG_EXP.equals(sLocalName)){
+			gn=new Exp(el);
 		}
 		if (gn!=null && el.hasAttribute("id")){
 			gn.getGrammar().addReference(el.getAttribute(ATT_ID), gn);
@@ -99,7 +105,18 @@ public abstract class GrammarNode {
 	}
 	
 	void eval(Writer out) {
-		for (GrammarNode gn : children)
-			gn.eval(out);
+		for (GrammarNode gn : children){
+			if (gn.isAutoEval()){
+				gn.eval(out);
+			}
+		}
+	}
+
+	public boolean isAutoEval() {
+		return autoEval;
+	}
+
+	public void setAutoEval(boolean autoEval) {
+		this.autoEval = autoEval;
 	}
 }
