@@ -15,11 +15,13 @@ public class Grammar extends GrammarNode{
 	Element data;
 	Map<String,GrammarNode> references;
 	XPathEvaluator xpe;
+	Map<String,Object> documentProperties;
 	
 	protected Grammar(Node xmlNode){
 		super(xmlNode);
 		this.random=new Random();
 		this.references=new HashMap<String, GrammarNode>();
+		this.documentProperties=new HashMap<String,Object>();
 	};
 	
 	void setData(Element dataElement){
@@ -44,8 +46,9 @@ public class Grammar extends GrammarNode{
 		return xpe;
 	}
 	
-	/** Clear vars */
+	/** Clear vars and properties. */
 	private void reset(){
+		documentProperties.clear();
 		for (GrammarNode gn : children){
 			if (gn instanceof Var){
 				((Var) gn).clear();
@@ -66,5 +69,13 @@ public class Grammar extends GrammarNode{
 
 	public void doGenerate(Writer w){
 		eval(w);
+	}
+	
+	public void putProperty(String sKey, Object value){
+		documentProperties.put(sKey, value);
+	}
+	
+	public Object getProperty(String sKey){
+		return documentProperties.get(sKey);
 	}
 }

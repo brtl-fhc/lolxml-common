@@ -26,5 +26,15 @@ public class Exp extends GrammarNode {
 			e.printStackTrace();
 		}
 	}
+	
+	Object call(){
+		Object oRet=null;
+		try{
+			oRet= getGrammar().getXPathEvaluator().evalAsNodeList(value);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return oRet;
+	}
 
 }

@@ -6,6 +6,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /** Encapsulate XPath evaluation */
 public class XPathEvaluator {
@@ -34,5 +35,9 @@ public class XPathEvaluator {
 	
 	public Boolean evalAsBoolean(String sExp){
 		return (Boolean)eval(sExp,XPathConstants.BOOLEAN);
+	}
+	
+	public NodeList evalAsNodeList(String sExp){
+		return (NodeList)eval(sExp,XPathConstants.NODESET);
 	}
 }

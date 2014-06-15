@@ -71,7 +71,7 @@
 		</complexType>
 	</element>
 
-	<!-- Vars store result of evaluations, allowing reuse -->
+	<!-- Vars store production results, allowing (static) reuse. -->
 	
 	<element name="var">
 		<complexType>
@@ -83,6 +83,15 @@
 		</complexType>
 	</element>
 
+	<!-- Store the result of an Exp into a document property. 
+		Properties are global, and can be overwritten. -->
+	<element name="store">
+		<complexType>
+			<attribute name="property" type="NMTOKEN" />
+			<attribute name="idref" type="IDREF" />
+		</complexType>
+	</element>
+	
 	<!-- Root element. Grammar= data*, sym+, var*, eval -->
 	
 	<element name="grammar">

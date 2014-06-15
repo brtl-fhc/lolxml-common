@@ -17,6 +17,8 @@ public abstract class GrammarNode {
 	public static final String TAG_CASE="case";
 	public static final String TAG_EVAL="eval";
 	public static final String TAG_VAR="var";
+	public static final String TAG_STORE="store";
+
 	public static final String TAG_GRAMMAR="grammar";
 	public static final String TAG_EXP="exp";
 
@@ -24,6 +26,8 @@ public abstract class GrammarNode {
 	public static final String ATT_TEST="test";
 	public static final String ATT_IDREF="idref";
 	public static final String ATT_VALUE="value";
+	public static final String ATT_PROPERTY="property";
+
 
 	public static final String KEY_GRAMMARNODE="grammarNode";
 	
@@ -92,6 +96,8 @@ public abstract class GrammarNode {
 			gn=new Var(el);
 		}else if (TAG_EXP.equals(sLocalName)){
 			gn=new Exp(el);
+		}else if (TAG_STORE.equals(sLocalName)){
+			gn=new Store(el);
 		}
 		if (gn!=null && el.hasAttribute("id")){
 			gn.getGrammar().addReference(el.getAttribute(ATT_ID), gn);
