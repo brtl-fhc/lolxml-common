@@ -6,12 +6,13 @@
   </lol:data>
   
   <lol:sym id="root">
-    <lol:exp id="animalName" value="animal/@name"/>
-    <lol:exp id="animalSound" value="animal/sound"/>
+    <lol:exp id="animalName" value="animal/@name" />
+    <lol:exp id="animalSound" value="animal/sound" />
+    <lol:exp id="animalSoundx2" value="concat(animal/sound,'-',animal/sound)" />
     Old MacDonald had a farm, E-I-E-I-O,
     And on that farm he had a <lol:eval idref="animalName"/>, E-I-E-I-O,
-    With a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/> here and a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/> there
-    Here a <lol:eval idref="animalSound"/>, there a <lol:eval idref="animalSound"/>, everywhere a <lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/>
+    With a <lol:eval idref="animalSoundx2"/> here and a <lol:eval idref="animalSoundx2"/> there
+    Here a <lol:eval idref="animalSound"/>, there a <lol:eval idref="animalSound"/>, everywhere a <lol:eval idref="animalSoundx2"/>
     Old MacDonald had a farm, E-I-E-I-O. 
   </lol:sym>
       

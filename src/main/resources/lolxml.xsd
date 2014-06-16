@@ -20,6 +20,7 @@
 				<element ref="lol:exp" />
 				<element ref="lol:switch" />
 				<element ref="lol:eval" />
+				<element ref="lol:store" />
 			</choice>
 		</sequence>
 	</complexType>
@@ -60,12 +61,23 @@
 		nested content if return is empty, there's no data or XPath is not
 		supported)
 	-->
+	<simpleType name="expType">
+		<restriction base="string">
+			<enumeration value="string"/>
+			<enumeration value="boolean"/>
+			<enumeration value="node"/>
+			<enumeration value="nodeset"/>
+			<enumeration value="number"/>
+		</restriction>
+	</simpleType>
+	
 	<element name="exp" >
 		<complexType>
 			<complexContent>
 				<extension base="lol:rightElement">
 					<attribute name="id" type="ID" use="required" />
 					<attribute name="value" type="normalizedString" use="required"/>
+					<attribute name="type" type="lol:expType" default="string" />
 				</extension>
 			</complexContent>
 		</complexType>

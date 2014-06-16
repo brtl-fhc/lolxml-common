@@ -27,7 +27,13 @@ public abstract class GrammarNode {
 	public static final String ATT_IDREF="idref";
 	public static final String ATT_VALUE="value";
 	public static final String ATT_PROPERTY="property";
+	public static final String ATT_TYPE="type";
 
+	public static final String TYPE_STRING="string";
+	public static final String TYPE_NODE="node";
+	public static final String TYPE_NODESET="nodeset";
+	public static final String TYPE_NUMBER="number";
+	public static final String TYPE_BOOLEAN="boolean";
 
 	public static final String KEY_GRAMMARNODE="grammarNode";
 	

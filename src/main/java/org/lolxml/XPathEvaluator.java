@@ -25,6 +25,7 @@ public class XPathEvaluator {
 	    try{
 	    	oRet=xpath.evaluate(sExp,ctx,qname);
 	    }catch(Exception e){
+	    	e.printStackTrace();
 	    }
 	    return oRet;
 	}
@@ -40,4 +41,13 @@ public class XPathEvaluator {
 	public NodeList evalAsNodeList(String sExp){
 		return (NodeList)eval(sExp,XPathConstants.NODESET);
 	}
+	
+	public NodeList evalAsNode(String sExp){
+		return (NodeList)eval(sExp,XPathConstants.NODE);
+	}
+	
+	public NodeList evalAsNumber(String sExp){
+		return (NodeList)eval(sExp,XPathConstants.NUMBER);
+	}
+
 }
