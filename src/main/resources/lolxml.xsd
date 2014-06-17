@@ -49,11 +49,12 @@
 		</complexType>
 	</element>
 
-	<!-- Evaluation: references symbols, vars and expressions-->
+	<!-- Evaluation: references symbols, vars, expressions and properties-->
 
 	<element name="eval">
 		<complexType>
-			<attribute name="idref" type="IDREF" use="required"/>
+			<attribute name="idref" type="IDREF" />
+			<attribute name="property" type="string"/>
 		</complexType>
 	</element>
 	
@@ -83,8 +84,8 @@
 		</complexType>
 	</element>
 
-	<!-- Vars store production results, allowing (static) reuse. -->
-	
+	<!-- Vars store production results, allowing (static) reuse. 
+		Deprecated: use store. -->
 	<element name="var">
 		<complexType>
 			<complexContent>
@@ -95,12 +96,17 @@
 		</complexType>
 	</element>
 
-	<!-- Store the result of an Exp into a document property. 
-		Properties are global, and can be overwritten. -->
+	<!-- Store the result of either an Exp (if idref is present) or the 
+		nested content, into a document property. Properties are global, and can 
+		be overwritten. -->
 	<element name="store">
 		<complexType>
-			<attribute name="property" type="NMTOKEN" />
-			<attribute name="idref" type="IDREF" />
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="property" type="NMTOKEN" use="required"/>
+					<attribute name="idref" type="IDREF" />
+				</extension>
+				</complexContent>
 		</complexType>
 	</element>
 	

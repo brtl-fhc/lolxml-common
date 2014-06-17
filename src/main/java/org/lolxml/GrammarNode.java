@@ -131,4 +131,12 @@ public abstract class GrammarNode {
 	public void setAutoEval(boolean autoEval) {
 		this.autoEval = autoEval;
 	}
+	
+	protected String getNodeAttribute(String s){
+		String sRet=((Element)xmlNode).getAttribute(s);
+		if ("".equals(sRet)){
+			sRet=null;
+		}
+		return sRet;
+	}
 }

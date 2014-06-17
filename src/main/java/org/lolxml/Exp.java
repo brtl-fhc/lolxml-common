@@ -2,7 +2,6 @@ package org.lolxml;
 
 import java.io.Writer;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class Exp extends GrammarNode {
@@ -15,7 +14,7 @@ public class Exp extends GrammarNode {
 		super(xmlNode);
 		mixed=true;
 		autoEval=false;
-		value= ((Element)xmlNode).getAttribute(ATT_VALUE);
+		value=getNodeAttribute(ATT_VALUE);
 	}
 	
 	@Override
