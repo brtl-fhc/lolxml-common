@@ -1,9 +1,12 @@
 package org.lolxml;
 
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.XPathVariableResolver;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,9 +17,16 @@ public class XPathEvaluator {
 	XPath xpath;
 	Node ctx;
 	
-	void init(Node ctx){
+	
+	void init(Node ctx, final Map<String, Object> properties){
 		XPathFactory factory = XPathFactory.newInstance();
 		xpath = factory.newXPath();
+		xpath.setXPathVariableResolver(new XPathVariableResolver(){
+			@Override
+			public Object resolveVariable(QName variableName) {
+				return properties.get(variableName.getLocalPart());
+			}
+		});
 		this.ctx=ctx;
 	}
 

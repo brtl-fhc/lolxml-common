@@ -27,7 +27,7 @@ public class Grammar extends GrammarNode{
 	void setData(Element dataElement){
 		this.data=dataElement;
 		xpe=new XPathEvaluator();
-		xpe.init(this.data);
+		xpe.init(this.data,documentProperties);
 	}
 	
 	public void addReference(String id,GrammarNode node){

@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lol:grammar xmlns:lol="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
 
-  <lol:data>
+  <data xmlns="">
       <animal name="duck"><sound>quack</sound></animal>
-  </lol:data>
+      <animal name="cow"><sound>moo</sound></animal>
+  </data>
   
-  <lol:sym id="root">
-    <lol:exp id="animalName" value="animal/@name" />
-    <lol:exp id="animalSound" value="animal/sound" />
-    <lol:store property="sound.x2"><lol:eval idref="animalSound"/>-<lol:eval idref="animalSound"/></lol:store>
-    Old MacDonald had a farm, E-I-E-I-O,
-    And on that farm he had a <lol:eval idref="animalName"/>, E-I-E-I-O,
-    With a <lol:eval property="sound.x2"/> here and a <lol:eval property="sound.x2"/> there
-    Here a <lol:eval idref="animalSound"/>, there a <lol:eval idref="animalSound"/>, everywhere a <lol:eval property="sound.x2"/>
-    Old MacDonald had a farm, E-I-E-I-O. 
-  </lol:sym>
+  
+  <sym id="animalName"><switch>
+      <case>duck</case>
+      <case>cow</case></switch></sym>
       
-  <lol:eval idref="root"/>
+  <sym id="root">
+    <store property="animalName"><eval idref="animalName"/></store>
+    <exp id="animalSound" value="animal[@name=$animalName]/sound" />    
+    <store property="sound.x2"><eval idref="animalSound"/>-<eval idref="animalSound"/></store>
+    Old MacDonald had a farm, E-I-E-I-O,
+    And on that farm he had a <eval property="animalName"/>, E-I-E-I-O,
+    With a <eval property="sound.x2"/> here and a <eval property="sound.x2"/> there
+    Here a <eval idref="animalSound"/>, there a <eval idref="animalSound"/>, everywhere a <eval property="sound.x2"/>
+    Old MacDonald had a farm, E-I-E-I-O. 
+  </sym>
+      
+  <eval idref="root"/>
 
-</lol:grammar>
+</grammar>

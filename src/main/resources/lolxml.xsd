@@ -7,7 +7,7 @@
 	<element name="data">
 		<complexType>
 			<sequence>
-				<any namespace="##any" processContents="lax"/>
+				<any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
 	</element>
