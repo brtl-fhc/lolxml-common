@@ -15,12 +15,12 @@
       
   <sym id="root">
     <store property="animalName"><eval idref="animalName"/></store>
-    <exp id="animalSound" value="farm/animal[@name=$animalName]/sound" />    
-    <store property="sound.x2"><eval idref="animalSound"/>-<eval idref="animalSound"/></store>
+    <store property="animalSound"><exp value="farm/animal[@name=$animalName]/sound" /></store>    
+    <store property="sound.x2"><exp value="concat($animalSound,'-',$animalSound)" /></store>
     Old MacDonald had a farm, E-I-E-I-O,
     And on that farm he had a <eval property="animalName"/>, E-I-E-I-O,
     With a <eval property="sound.x2"/> here and a <eval property="sound.x2"/> there
-    Here a <eval idref="animalSound"/>, there a <eval idref="animalSound"/>, everywhere a <eval property="sound.x2"/>
+    Here a <eval property="animalSound"/>, there a <eval property="animalSound"/>, everywhere a <eval property="sound.x2"/>
     Old MacDonald had a farm, E-I-E-I-O. 
   </sym>
       

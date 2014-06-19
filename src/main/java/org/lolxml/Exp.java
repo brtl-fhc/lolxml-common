@@ -13,7 +13,6 @@ public class Exp extends GrammarNode {
 	protected Exp(Node xmlNode) {
 		super(xmlNode);
 		mixed=true;
-		autoEval=false;
 		value=getNodeAttribute(ATT_VALUE);
 		type=getNodeAttribute(ATT_TYPE);
 	}
@@ -32,11 +31,7 @@ public class Exp extends GrammarNode {
 		Object oRet=null;
 		try{
 			XPathEvaluator xEv=getGrammar().getXPathEvaluator();
-			oRet= type.equalsIgnoreCase(TYPE_NODESET)	? xEv.evalAsNodeList(value)
-				: type.equalsIgnoreCase(TYPE_BOOLEAN)	? xEv.evalAsBoolean(value)
-				: type.equalsIgnoreCase(TYPE_NUMBER)	? xEv.evalAsNumber(value)
-				: type.equalsIgnoreCase(TYPE_NODE)		? xEv.evalAsNode(value) 
-														: xEv.evalAsString(value);
+			oRet=xEv.evalExpType(value, type);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

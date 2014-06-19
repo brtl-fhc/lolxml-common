@@ -120,13 +120,13 @@
 		</switch></sym>
 
 	<sym id="aPeticion1"><switch>
-			<case>Estoy oyendo a <eval idref="grupoBueno"/> y lo estoy gozando.</case>
-			<case>Me han recomendado grupos de <eval idref="estiloBueno"/>.</case>
-			<case>Tengo muchos discos de grupazos de <eval idref="estiloBueno"/> pero quiero conocer mas.</case>
-			<case>Que grupos conocen dentro del <eval idref="estiloBueno"/>?.</case>
-			<case>Quiero que me digan que grupos escuchais que hagan <eval idref="estiloBueno"/>.</case>
-			<case>Me pregunto que grupos hay de <eval idref="estiloBueno"/> que tengan <eval idref="instrumento"/>.</case>
-			<case>Que grupos hay como <eval idref="grupoBueno"/>?</case>
+			<case>Estoy oyendo a <eval property="grupoBueno"/> y lo estoy gozando.</case>
+			<case>Me han recomendado grupos de <eval property="estiloBueno"/>.</case>
+			<case>Tengo muchos discos de grupazos de <eval property="estiloBueno"/> pero quiero conocer mas.</case>
+			<case>Que grupos conocen dentro del <eval property="estiloBueno"/>?.</case>
+			<case>Quiero que me digan que grupos escuchais que hagan <eval property="estiloBueno"/>.</case>
+			<case>Me pregunto que grupos hay de <eval property="estiloBueno"/> que tengan <eval property="instrumento"/>.</case>
+			<case>Que grupos hay como <eval property="grupoBueno"/>?</case>
 			<case></case>
 		</switch>
 	</sym>
@@ -134,12 +134,12 @@
 	<sym id="aPeticion2"><switch>
 			<case></case>
 			<case></case>
-			<case>Ojo que no estoy hablando de <eval idref="estiloMalo"/>, no me recomienden porquerias como <eval idref="grupoMalo"/>.</case>
-			<case>Alguien me dijo que probara con <eval idref="grupoMalo"/> y menuda basura.</case>
-			<case>Entiendan que quiero <eval idref="estiloBueno"/>, no <eval idref="estiloMalo"/>. Lo repito para que nadie diga a <eval idref="grupoMalo"/>.</case>
-			<case>Quiero ver que grupazos me faltan como <eval idref="grupoBueno"/>.</case>
-			<case>A ver si me entienden, estoy pidiendo grupazos con <eval idref="instrumento"/>.</case>
-			<case>A mi me gusta el <eval idref="estiloBueno"/> con <eval idref="instrumento"/>, nada que ver con <eval idref="grupoMalo"/>.</case>
+			<case>Ojo que no estoy hablando de <eval property="estiloMalo"/>, no me recomienden porquerias como <eval property="grupoMalo"/>.</case>
+			<case>Alguien me dijo que probara con <eval property="grupoMalo"/> y menuda basura.</case>
+			<case>Entiendan que quiero <eval property="estiloBueno"/>, no <eval property="estiloMalo"/>. Lo repito para que nadie diga a <eval property="grupoMalo"/>.</case>
+			<case>Quiero ver que grupazos me faltan como <eval property="grupoBueno"/>.</case>
+			<case>A ver si me entienden, estoy pidiendo grupazos con <eval property="instrumento"/>.</case>
+			<case>A mi me gusta el <eval property="estiloBueno"/> con <eval property="instrumento"/>, nada que ver con <eval property="grupoMalo"/>.</case>
 		</switch>
 	</sym>
 	
@@ -149,18 +149,18 @@
 			<case><eval idref="estilo"/></case>
 		</switch> <eval idref="estilosSufijos"/></sym>
 	
-	<sym id="post">Subject: <eval idref="estiloBueno"/>
+	<sym id="post">
+	    <store property="instrumento"><eval idref="instrumentos"/></store>
+		<store property="grupoBueno"><eval idref="gruposBuenos"/></store>
+		<store property="grupoMalo"><eval idref="gruposMalos"/></store>
+		<store property="estiloBueno"><eval idref="estiloCompuesto"/></store>
+		<store property="estiloMalo"><eval idref="estiloCompuesto"/></store>	
+	Subject: <eval property="estiloBueno"/>
 		<eval idref="saludos"/>
 		<eval idref="aPeticion1"/>
 		<eval idref="aPeticion2"/>
 		<eval idref="despedidas"/>
 	</sym>
 	
-	<var id="instrumento"><eval idref="instrumentos"/></var>
-	<var id="grupoBueno"><eval idref="gruposBuenos"/></var>
-	<var id="grupoMalo"><eval idref="gruposMalos"/></var>
-	<var id="estiloBueno"><eval idref="estiloCompuesto"/></var>
-	<var id="estiloMalo"><eval idref="estiloCompuesto"/></var>	
-
 	<eval idref="post"/>
 </grammar>

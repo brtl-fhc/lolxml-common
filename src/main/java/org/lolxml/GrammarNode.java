@@ -16,7 +16,6 @@ public abstract class GrammarNode {
 	public static final String TAG_SWITCH="switch";
 	public static final String TAG_CASE="case";
 	public static final String TAG_EVAL="eval";
-	public static final String TAG_VAR="var";
 	public static final String TAG_STORE="store";
 
 	public static final String TAG_GRAMMAR="grammar";
@@ -98,8 +97,6 @@ public abstract class GrammarNode {
 			gn=new Switch(el);
 		}else if (TAG_SYM.equals(sLocalName)){
 			gn=new Sym(el);
-		}else if (TAG_VAR.equals(sLocalName)){
-			gn=new Var(el);
 		}else if (TAG_EXP.equals(sLocalName)){
 			gn=new Exp(el);
 		}else if (TAG_STORE.equals(sLocalName)){

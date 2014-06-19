@@ -46,14 +46,9 @@ public class Grammar extends GrammarNode{
 		return xpe;
 	}
 	
-	/** Clear vars and properties. */
+	/** Clear properties. */
 	private void reset(){
 		documentProperties.clear();
-		for (GrammarNode gn : children){
-			if (gn instanceof Var){
-				((Var) gn).clear();
-			}
-		}
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ public class XPathEvaluator {
 		this.ctx=ctx;
 	}
 
-	public Object eval(String sExp,QName qname){
+	private Object eval(String sExp,QName qname){
 		Object oRet=null;
 	    try{
 	    	oRet=xpath.evaluate(sExp,ctx,qname);
@@ -38,6 +38,18 @@ public class XPathEvaluator {
 	    	e.printStackTrace();
 	    }
 	    return oRet;
+	}
+	
+	public Object evalExpType(String exp, String sExpType){
+		return eval(exp, expType(sExpType));
+	}
+	
+	public QName expType(String sExpType){
+		return	sExpType.equalsIgnoreCase(GrammarNode.TYPE_NODESET)	? XPathConstants.NODESET
+				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_BOOLEAN)	? XPathConstants.BOOLEAN
+				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_NUMBER)	? XPathConstants.NUMBER
+				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_NODE)		? XPathConstants.NODE 
+																		: XPathConstants.STRING;
 	}
 	
 	public String evalAsString(String sExp){
