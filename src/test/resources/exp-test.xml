@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
 
-  <data xmlns="">
-      <animal name="duck"><sound>quack</sound></animal>
-      <animal name="cow"><sound>moo</sound></animal>
+  <data>
+      <farm xmlns="">
+      	<animal name="duck"><sound>quack</sound></animal>
+      	<animal name="cow"><sound>moo</sound></animal>
+      </farm>
   </data>
   
   
@@ -13,7 +15,7 @@
       
   <sym id="root">
     <store property="animalName"><eval idref="animalName"/></store>
-    <exp id="animalSound" value="animal[@name=$animalName]/sound" />    
+    <exp id="animalSound" value="farm/animal[@name=$animalName]/sound" />    
     <store property="sound.x2"><eval idref="animalSound"/>-<eval idref="animalSound"/></store>
     Old MacDonald had a farm, E-I-E-I-O,
     And on that farm he had a <eval property="animalName"/>, E-I-E-I-O,
