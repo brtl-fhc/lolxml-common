@@ -2,11 +2,6 @@
 <grammar xmlns="http://lolxml.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
-	<data>
-		<xxx>true</xxx>
-	</data>
-
-
 	<sym id="estilo"><switch>
 			<case>Black</case>
 			<case>Thrash</case>
@@ -150,11 +145,11 @@
 		</switch> <eval idref="estilosSufijos"/></sym>
 	
 	<sym id="post">
-	    <store property="instrumento"><eval idref="instrumentos"/></store>
-		<store property="grupoBueno"><eval idref="gruposBuenos"/></store>
-		<store property="grupoMalo"><eval idref="gruposMalos"/></store>
-		<store property="estiloBueno"><eval idref="estiloCompuesto"/></store>
-		<store property="estiloMalo"><eval idref="estiloCompuesto"/></store>	
+	    <store property="instrumento" idref="instrumentos"/>
+		<store property="grupoBueno" idref="gruposBuenos"/>
+		<store property="grupoMalo" idref="gruposMalos"/>
+		<store property="estiloBueno" idref="estiloCompuesto"/>
+		<store property="estiloMalo" idref="estiloCompuesto"/>	
 	Subject: <eval property="estiloBueno"/>
 		<eval idref="saludos"/>
 		<eval idref="aPeticion1"/>
