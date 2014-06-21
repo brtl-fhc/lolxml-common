@@ -3,42 +3,72 @@ package org.lolxml;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class Store extends GrammarNode {
 	
 	String property;
 	String idRef;
+	String type;
+	String select;
 	
 	protected Store(Node xmlNode) {
 		super(xmlNode);
 		this.property=getNodeAttribute(ATT_PROPERTY);
 		this.idRef=getNodeAttribute(ATT_IDREF);
+		this.type=getNodeAttribute(ATT_TYPE);
+		this.select=getNodeAttribute(ATT_SELECT);
 		mixed=true;
 	}
 	
-	/** Silent eval, stores Exp call result or nested content in property */
+	/** Silent eval, stores inline XPath, IDREF result or nested content in property */
 	@Override
 	void eval(Writer out) {
-		if (idRef!=null){
+		if (select!=null){
+			storeSelect();
+		}else if (idRef!=null){
 			storeRef();
 		}else{
 			storeContent();
 		}
 	}
 	
+	/** Evaluate node and keep result for reference  */
 	private void storeRef(){
-		GrammarNode gnRef=getGrammar().getReference(((Element)xmlNode).getAttribute(ATT_IDREF));
-		if (TAG_EXP.equals(gnRef.xmlNode.getLocalName())){
-			getGrammar().putProperty(this.property,((Exp)gnRef).call());
+		String sRef=getNodeAttribute(ATT_IDREF);
+		if (sRef!=null){
+			GrammarNode gnRef=getGrammar().getReference(sRef);
+			if (gnRef!=null){
+				String sTag=gnRef.xmlNode.getLocalName();
+				if (TAG_EXP.equals(sTag)){
+					getGrammar().putProperty(this.property,((Exp)gnRef).call(this.type));
+				}else if (TAG_SYM.equals(sTag)){
+					StringWriter sw=new StringWriter();
+					gnRef.eval(sw);
+					getGrammar().putProperty(this.property, sw.toString());
+				}
+			}
+		}else{
+			System.err.println("Missing idref.");
 		}
 	}
 	
+	/** Evaluate and keep nested content */
 	private void storeContent(){
 		StringWriter sw=new StringWriter();
 		super.eval(sw);
 		getGrammar().putProperty(this.property, sw.toString());
+	}
+	
+	/** Evaluate inline XPath and store result */
+	private void storeSelect(){
+		try{
+			XPathEvaluator xEv=getGrammar().getXPathEvaluator();
+			Object oRet=xEv.evalExpType(select, type==null? TYPE_STRING :type);
+			getGrammar().putProperty(this.property, oRet);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

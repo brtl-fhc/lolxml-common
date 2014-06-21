@@ -68,7 +68,6 @@
 				<extension base="lol:rightElement">
 					<attribute name="id" type="ID" />
 					<attribute name="value" type="normalizedString" use="required"/>
-					<attribute name="type" type="lol:expType" default="string" />
 				</extension>
 			</complexContent>
 		</complexType>
@@ -84,9 +83,9 @@
 		</restriction>
 	</simpleType>
 	
-	<!-- Store the result of either an Exp (referenced, if idref is present,
-		or inline if select + type are present), or the 
-		nested content, into a document property. Properties are global, and can 
+	<!-- Store the result of either an inline XPath (if select + type are present),
+		a referenced Exp/Sym (if idref is present), or nested content, 
+		into a document property. Properties are global, and can 
 		be overwritten. -->
 	<element name="store">
 		<complexType>
@@ -106,7 +105,10 @@
 	<element name="grammar">
 		<complexType>
 			<sequence>
-				<element ref="lol:data" minOccurs="0" maxOccurs="1"/>
+				<choice minOccurs="0" >
+					<element ref="lol:data" />
+					<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
+				</choice>
 				<element ref="lol:sym" minOccurs="1" maxOccurs="unbounded" />
 				<element ref="lol:eval" maxOccurs="1" minOccurs="1"/>
 			</sequence>

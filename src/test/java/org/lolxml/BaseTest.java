@@ -28,8 +28,8 @@ public class BaseTest extends TestCase
 			g.eval(sw);
 			sRet= sw.toString();
 		}catch(Exception e){
+			e.printStackTrace();
 			fail(e.toString());
-//			e.printStackTrace();
 		}
 		return sRet;
 	}
@@ -40,10 +40,21 @@ public class BaseTest extends TestCase
     	System.out.println(run("/androidtxol.xml"));
     }
     
-    public void testExp()
+    public void testExpString()
     {
-    	String s=run("/exp-test.xml");
+    	String s=run("/exp-string-test.xml");
     	System.out.println(s);
     }
     
+    public void testExpNode()
+    {
+    	String s=run("/exp-string-test.xml");
+    	System.out.println(s);
+    }
+    
+    public void testStoreInline()
+    {
+    	String s=run("/exp-store-inline-test.xml");
+    	System.out.println(s);
+    }
 }

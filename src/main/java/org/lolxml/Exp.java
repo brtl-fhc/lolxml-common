@@ -8,13 +8,11 @@ public class Exp extends GrammarNode {
 
 	String value;
 	Object result;
-	String type;
 	
 	protected Exp(Node xmlNode) {
 		super(xmlNode);
 		mixed=true;
 		value=getNodeAttribute(ATT_VALUE);
-		type=getNodeAttribute(ATT_TYPE);
 	}
 	
 	@Override
@@ -27,7 +25,8 @@ public class Exp extends GrammarNode {
 		}
 	}
 	
-	Object call(){
+	/** Evaluate Exp using specific return type */
+	Object call(String type){
 		Object oRet=null;
 		try{
 			XPathEvaluator xEv=getGrammar().getXPathEvaluator();

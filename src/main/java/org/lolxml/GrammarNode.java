@@ -27,6 +27,8 @@ public abstract class GrammarNode {
 	public static final String ATT_VALUE="value";
 	public static final String ATT_PROPERTY="property";
 	public static final String ATT_TYPE="type";
+	public static final String ATT_SELECT="select";
+
 
 	public static final String TYPE_STRING="string";
 	public static final String TYPE_NODE="node";
