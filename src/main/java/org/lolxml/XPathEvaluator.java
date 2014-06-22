@@ -1,5 +1,6 @@
 package org.lolxml;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -71,5 +72,5 @@ public class XPathEvaluator {
 	public NodeList evalAsNumber(String sExp){
 		return (NodeList)eval(sExp,XPathConstants.NUMBER);
 	}
-
+	
 }

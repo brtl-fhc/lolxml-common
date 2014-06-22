@@ -17,6 +17,8 @@ public abstract class GrammarNode {
 	public static final String TAG_CASE="case";
 	public static final String TAG_EVAL="eval";
 	public static final String TAG_STORE="store";
+	public static final String TAG_FOREACH="foreach";
+
 
 	public static final String TAG_GRAMMAR="grammar";
 	public static final String TAG_EXP="exp";
@@ -28,7 +30,7 @@ public abstract class GrammarNode {
 	public static final String ATT_PROPERTY="property";
 	public static final String ATT_TYPE="type";
 	public static final String ATT_SELECT="select";
-
+	public static final String ATT_VAR="var";
 
 	public static final String TYPE_STRING="string";
 	public static final String TYPE_NODE="node";
@@ -103,6 +105,8 @@ public abstract class GrammarNode {
 			gn=new Exp(el);
 		}else if (TAG_STORE.equals(sLocalName)){
 			gn=new Store(el);
+		}else if (TAG_FOREACH.equals(sLocalName)){
+			gn=new ForEach(el);
 		}
 		if (gn!=null && el.hasAttribute("id")){
 			gn.getGrammar().addReference(el.getAttribute(ATT_ID), gn);

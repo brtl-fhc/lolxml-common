@@ -57,4 +57,10 @@ public class BaseTest extends TestCase
     	String s=run("/exp-store-inline-test.xml");
     	System.out.println(s);
     }
+    
+    public void testForeach()
+    {
+    	String s=run("/foreach-test.xml");
+    	System.out.println(s);
+    }
 }

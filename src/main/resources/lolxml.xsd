@@ -21,6 +21,7 @@
 				<element ref="lol:switch" />
 				<element ref="lol:eval" />
 				<element ref="lol:store" />
+				<element ref="lol:foreach" />
 			</choice>
 		</sequence>
 	</complexType>
@@ -40,7 +41,6 @@
 
 
 	<!-- Random chooser for production rules. -->
-	
 	<element name="switch">
 		<complexType>
 			<sequence>
@@ -49,12 +49,27 @@
 		</complexType>
 	</element>
 
+	<!-- Iterate through nodeset specified by inline XPath (select), referenced
+	 	Exp (idref) or stored in property (property), and evaluate content.
+	 	Exposes active node as property (name declared in "var" attribute). -->
+	<element name="foreach">
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="idref" type="IDREF" />
+					<attribute name="select" type="string" />
+					<attribute name="property" type="NMTOKEN" />
+					<attribute name="var" type="NMTOKEN" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
 	<!-- Evaluation: references symbols, vars, expressions and properties-->
-
 	<element name="eval">
 		<complexType>
 			<attribute name="idref" type="IDREF" />
-			<attribute name="property" type="string"/>
+			<attribute name="property" type="NMTOKEN"/>
 		</complexType>
 	</element>
 	
