@@ -58,9 +58,15 @@ public class BaseTest extends TestCase
     	System.out.println(s);
     }
     
-    public void testForeach()
+    public void testForeachSelect()
     {
-    	String s=run("/foreach-test.xml");
+    	String s=run("/foreach-select-test.xml");
+    	System.out.println(s);
+    }
+    
+    public void testForeachIdref()
+    {
+    	String s=run("/foreach-idref-test.xml");
     	System.out.println(s);
     }
 }

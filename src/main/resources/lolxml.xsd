@@ -121,8 +121,10 @@
 		<complexType>
 			<sequence>
 				<choice minOccurs="0" >
-					<element ref="lol:data" />
-					<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
+					<sequence>
+						<element ref="lol:data" />
+						<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
 				</choice>
 				<element ref="lol:sym" minOccurs="1" maxOccurs="unbounded" />
 				<element ref="lol:eval" maxOccurs="1" minOccurs="1"/>
