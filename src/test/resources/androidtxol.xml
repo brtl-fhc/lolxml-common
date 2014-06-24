@@ -2,6 +2,8 @@
 <grammar xmlns="http://lolxml.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
+	<data/>
+	
 	<sym id="lugar_aqui"><switch>
 			<case><eval idref="espana"/></case>
 			<case>Baleares</case>

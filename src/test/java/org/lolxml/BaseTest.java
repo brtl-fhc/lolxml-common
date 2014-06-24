@@ -69,4 +69,22 @@ public class BaseTest extends TestCase
     	String s=run("/foreach-idref-test.xml");
     	System.out.println(s);
     }
+    
+    public void testForeachProperty()
+    {
+    	String s=run("/foreach-property-test.xml");
+    	System.out.println(s);
+    }
+    
+    public void testIf()
+    {
+    	String s=run("/if-test.xml");
+    	System.out.println(s);
+    }
+    
+    public void testWhile()
+    {
+    	String s=run("/while-test.xml");
+    	System.out.println(s);
+    }
 }

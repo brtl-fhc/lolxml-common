@@ -2,12 +2,12 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://lolxml.org"
 	xmlns:lol="http://lolxml.org" elementFormDefault="qualified">
 
-	<!-- Support lookup data (optional) -->
-	
+	<!-- Support lookup data (not optional anymore, inits XPath evaluator.
+		Can be empty, though) -->
 	<element name="data">
 		<complexType>
 			<sequence>
-				<any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
+				<any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -22,6 +22,8 @@
 				<element ref="lol:eval" />
 				<element ref="lol:store" />
 				<element ref="lol:foreach" />
+				<element ref="lol:if" />
+				<element ref="lol:while" />
 			</choice>
 		</sequence>
 	</complexType>
@@ -60,6 +62,34 @@
 					<attribute name="select" type="string" />
 					<attribute name="property" type="NMTOKEN" />
 					<attribute name="var" type="NMTOKEN" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<!-- Conditional evaluator specified by inline boolean XPath (test), 
+	referenced boolean Exp (idref) or stored in property (property). -->
+	<element name="if">
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="idref" type="IDREF" />
+					<attribute name="test" type="string" />
+					<attribute name="property" type="NMTOKEN" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<!-- Conditional loop specified by inline boolean XPath (test), 
+	referenced boolean Exp (idref) or stored in property (property). -->
+	<element name="while">
+		<complexType>
+			<complexContent>
+				<extension base="lol:rightElement">
+					<attribute name="idref" type="IDREF" />
+					<attribute name="test" type="string" />
+					<attribute name="property" type="NMTOKEN" />
 				</extension>
 			</complexContent>
 		</complexType>
@@ -120,12 +150,8 @@
 	<element name="grammar">
 		<complexType>
 			<sequence>
-				<choice minOccurs="0" >
-					<sequence>
-						<element ref="lol:data" />
-						<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
-					</sequence>
-				</choice>
+				<element ref="lol:data" />
+				<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
 				<element ref="lol:sym" minOccurs="1" maxOccurs="unbounded" />
 				<element ref="lol:eval" maxOccurs="1" minOccurs="1"/>
 			</sequence>

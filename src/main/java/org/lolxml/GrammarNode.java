@@ -18,6 +18,9 @@ public abstract class GrammarNode {
 	public static final String TAG_EVAL="eval";
 	public static final String TAG_STORE="store";
 	public static final String TAG_FOREACH="foreach";
+	public static final String TAG_IF="if";
+	public static final String TAG_WHILE="while";
+
 
 
 	public static final String TAG_GRAMMAR="grammar";
@@ -107,6 +110,10 @@ public abstract class GrammarNode {
 			gn=new Store(el);
 		}else if (TAG_FOREACH.equals(sLocalName)){
 			gn=new ForEach(el);
+		}else if (TAG_IF.equals(sLocalName)){
+			gn=new If(el);
+		}else if (TAG_WHILE.equals(sLocalName)){
+			gn=new While(el);
 		}
 		if (gn!=null && el.hasAttribute("id")){
 			gn.getGrammar().addReference(el.getAttribute(ATT_ID), gn);

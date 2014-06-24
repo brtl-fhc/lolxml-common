@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+  <data>
+      <farm xmlns="">
+      	<animal name="duck"><sound>quack</sound></animal>
+      	<animal name="cow"><sound>moo</sound></animal>
+      </farm>
+  </data>
+    
+  <sym id="ROOT">
+    <store property="animals" select="farm/animal"></store>
+    <foreach property="animals" var="animal">
+	    <store property="animalSound" select="$animal/sound"/>
+	    <store property="sound.x2"><eval property="animalSound"/>-<eval property="animalSound"/></store>
+	    Old MacDonald had a farm, E-I-E-I-O,
+	    And on that farm he had a <exp value="$animal/@name"/>, E-I-E-I-O,
+	    With a <eval property="sound.x2"/> here and a <eval property="sound.x2"/> there
+	    Here a <eval property="animalSound"/>, there a <eval property="animalSound"/>, everywhere a <eval property="sound.x2"/>
+	    Old MacDonald had a farm, E-I-E-I-O. 
+    </foreach>
+  </sym>
+      
+  <eval idref="ROOT"/>
+
+</grammar>

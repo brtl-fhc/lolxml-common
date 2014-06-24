@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+  
+  <data />
+  
+  <exp id="tableInRange" value="$i &lt;= 9"/>
+  
+  <sym id="ROOT">
+      <store property="i" type="number" select="1"/>
+      <while idref="tableInRange">
+          <store property="j" type="number" select="1"/>
+	      <while test="$j &lt; 11">
+	          <exp value="$i"/> x <exp value="$j"/> = <exp value="$i * $j"/>
+			  <store property="j" type="number" select="$j+1" />
+	      </while>
+	      <store property="i" type="number" select="$i+1" />	   
+	  </while>
+  </sym>
+      
+  <eval idref="ROOT"/>
+
+</grammar>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+  <data>
+      <farm xmlns="">
+      	<animal name="chick"><sound>chick</sound></animal>
+      	<animal name="pig"><sound>oink</sound></animal>
+      </farm>
+  </data>
+
+  <exp id="startsWithVowel" value="contains('aeiouAEIOU',substring($animalSound,1,1))"/>
+    
+  <sym id="ROOT">
+    <foreach select="farm/animal" var="animal">
+	    <store property="animalSound" select="$animal/sound"/>
+	    <store property="soundWithVowel" idref="startsWithVowel" type="boolean"/>
+	    <store property="sound.x2"><eval property="animalSound"/>-<eval property="animalSound"/></store>
+	    Old MacDonald had a farm, E-I-E-I-O,
+	    And on that farm he had a <exp value="$animal/@name"/>, E-I-E-I-O,
+	    With a<if test="$soundWithVowel">n</if> <eval property="sound.x2"/> here and a<if property="soundWithVowel">n</if> <eval property="sound.x2"/> there
+	    Here a<if idref="startsWithVowel">n</if> <eval property="animalSound"/>, there a<if property="soundWithVowel">n</if> <eval property="animalSound"/>, everywhere a<if idref="startsWithVowel">n</if> <eval property="sound.x2"/>
+	    Old MacDonald had a farm, E-I-E-I-O.
+    </foreach> 
+  </sym>
+      
+  <eval idref="ROOT"/>
+
+</grammar>
