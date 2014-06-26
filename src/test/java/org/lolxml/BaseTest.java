@@ -87,4 +87,10 @@ public class BaseTest extends TestCase
     	String s=run("/while-test.xml");
     	System.out.println(s);
     }
+    
+    public void testHtml()
+    {
+    	String s=run("/html-test.xml");
+    	System.out.println(s);
+    }
 }

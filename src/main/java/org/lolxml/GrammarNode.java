@@ -90,6 +90,18 @@ public abstract class GrammarNode {
 	}
 	
 	private static GrammarNode parseElement(Element el){
+		if (NAMESPACE.equals(el.getNamespaceURI())){
+			return parseOwnTag(el);
+		}else{
+			return parseForeignTag(el);
+		}
+	}
+	
+	private static GrammarNode parseForeignTag(Element el){
+		return new ForeignTag(el);
+	}
+	
+	private static GrammarNode parseOwnTag(Element el){
 		GrammarNode gn=null;
 		String sLocalName = el.getLocalName();
 		if (TAG_CASE.equals(sLocalName)){

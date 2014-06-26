@@ -4,121 +4,110 @@
 
 	<!-- Support lookup data (not optional anymore, inits XPath evaluator.
 		Can be empty, though) -->
-	<element name="data">
-		<complexType>
-			<sequence>
-				<any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-			</sequence>
-		</complexType>
-	</element>
+
+	<complexType name="dataType">
+		<sequence>
+			<any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
 	
 	<!-- Template for mixed element (right term of production)  -->
 
 	<complexType name="rightElement" mixed="true">
 		<sequence minOccurs="0" maxOccurs="unbounded">
 			<choice>
-				<element ref="lol:exp" />
-				<element ref="lol:switch" />
-				<element ref="lol:eval" />
-				<element ref="lol:store" />
-				<element ref="lol:foreach" />
-				<element ref="lol:if" />
-				<element ref="lol:while" />
+				<element name="exp" type="lol:expType"/>
+				<element name="switch" type="lol:switchType" />
+				<element name="eval" type="lol:evalType" />
+				<element name="store" type="lol:storeType" />
+				<element name="foreach" type="lol:foreachType" />
+				<element name="if" type="lol:ifType" />
+				<element name="while" type="lol:whileType" />
+				<any namespace="##other" processContents="lax"/>
+				<any namespace="##local" processContents="lax"/>
 			</choice>
 		</sequence>
 	</complexType>
 
 
 	<!-- Symbols (non-terminal) -->
-	
-	<element name="sym">
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="id" use="required" type="ID" />
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
+	<complexType name="symType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="id" use="required" type="ID" />
+			</extension>
+		</complexContent>
+	</complexType>
 
 
 	<!-- Random chooser for production rules. -->
-	<element name="switch">
-		<complexType>
-			<sequence>
-				<element name="case" minOccurs="1" maxOccurs="unbounded" type="lol:rightElement"/>
-			</sequence>
-		</complexType>
-	</element>
+	<complexType name="switchType">
+		<sequence>
+			<element name="case" minOccurs="1" maxOccurs="unbounded"
+				type="lol:rightElement" />
+		</sequence>
+	</complexType>
 
 	<!-- Iterate through nodeset specified by inline XPath (select), referenced
 	 	Exp (idref) or stored in property (property), and evaluate content.
 	 	Exposes active node as property (name declared in "var" attribute). -->
-	<element name="foreach">
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="idref" type="IDREF" />
-					<attribute name="select" type="string" />
-					<attribute name="property" type="NMTOKEN" />
-					<attribute name="var" type="NMTOKEN" />
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
+	<complexType name="foreachType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="idref" type="IDREF" />
+				<attribute name="select" type="string" />
+				<attribute name="property" type="NMTOKEN" />
+				<attribute name="var" type="NMTOKEN" />
+			</extension>
+		</complexContent>
+	</complexType>
+
 	
 	<!-- Conditional evaluator specified by inline boolean XPath (test), 
 	referenced boolean Exp (idref) or stored in property (property). -->
-	<element name="if">
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="idref" type="IDREF" />
-					<attribute name="test" type="string" />
-					<attribute name="property" type="NMTOKEN" />
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
+	<complexType name="ifType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="idref" type="IDREF" />
+				<attribute name="test" type="string" />
+				<attribute name="property" type="NMTOKEN" />
+			</extension>
+		</complexContent>
+	</complexType>
 	
 	<!-- Conditional loop specified by inline boolean XPath (test), 
 	referenced boolean Exp (idref) or stored in property (property). -->
-	<element name="while">
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="idref" type="IDREF" />
-					<attribute name="test" type="string" />
-					<attribute name="property" type="NMTOKEN" />
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
+
+	<complexType name="whileType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="idref" type="IDREF" />
+				<attribute name="test" type="string" />
+				<attribute name="property" type="NMTOKEN" />
+			</extension>
+		</complexContent>
+	</complexType>
 	
 	<!-- Evaluation: references symbols, vars, expressions and properties-->
-	<element name="eval">
-		<complexType>
-			<attribute name="idref" type="IDREF" />
-			<attribute name="property" type="NMTOKEN"/>
-		</complexType>
-	</element>
+	<complexType name="evalType">
+		<attribute name="idref" type="IDREF" />
+		<attribute name="property" type="NMTOKEN" />
+	</complexType>
 	
 	<!-- Evaluates XPath expression in @value (using data as context), or 
 		nested content if return is empty, there's no data or XPath is not
 		supported)
 	-->
-	<element name="exp" >
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="id" type="ID" />
-					<attribute name="value" type="normalizedString" use="required"/>
-				</extension>
-			</complexContent>
-		</complexType>
-	</element>
+	<complexType name="expType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="id" type="ID" />
+				<attribute name="value" type="normalizedString" use="required" />
+			</extension>
+		</complexContent>
+	</complexType>
 
-	<simpleType name="expType">
+	<simpleType name="expTypes">
 		<restriction base="string">
 			<enumeration value="string"/>
 			<enumeration value="boolean"/>
@@ -132,28 +121,25 @@
 		a referenced Exp/Sym (if idref is present), or nested content, 
 		into a document property. Properties are global, and can 
 		be overwritten. -->
-	<element name="store">
-		<complexType>
-			<complexContent>
-				<extension base="lol:rightElement">
-					<attribute name="property" type="NMTOKEN" use="required"/>
-					<attribute name="idref" type="IDREF" />
-					<attribute name="select" type="string" />
-					<attribute name="type" type="lol:expType" default="string" />
-				</extension>
-				</complexContent>
-		</complexType>
-	</element>
+	<complexType name="storeType">
+		<complexContent>
+			<extension base="lol:rightElement">
+				<attribute name="property" type="NMTOKEN" use="required" />
+				<attribute name="idref" type="IDREF" />
+				<attribute name="select" type="string" />
+				<attribute name="type" type="lol:expTypes" default="string" />
+			</extension>
+		</complexContent>
+	</complexType>
 	
 	<!-- Root element. Grammar= data*, sym+, var*, eval -->
-	
 	<element name="grammar">
 		<complexType>
 			<sequence>
-				<element ref="lol:data" />
-				<element ref="lol:exp" minOccurs="0" maxOccurs="unbounded" />
-				<element ref="lol:sym" minOccurs="1" maxOccurs="unbounded" />
-				<element ref="lol:eval" maxOccurs="1" minOccurs="1"/>
+				<element name="data" type="lol:dataType" />
+				<element name="exp" type="lol:expType" minOccurs="0" maxOccurs="unbounded" />
+				<element name="sym" type="lol:symType" minOccurs="1" maxOccurs="unbounded" />
+				<element name="eval" type="lol:evalType" maxOccurs="1" minOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>
