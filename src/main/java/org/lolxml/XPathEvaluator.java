@@ -6,6 +6,8 @@ import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.XPathFunction;
+import javax.xml.xpath.XPathFunctionResolver;
 import javax.xml.xpath.XPathVariableResolver;
 
 import org.w3c.dom.Node;
@@ -25,6 +27,16 @@ public class XPathEvaluator {
 			@Override
 			public Object resolveVariable(QName variableName) {
 				return properties.get(variableName.getLocalPart());
+			}
+		});
+		xpath.setXPathFunctionResolver(new XPathFunctionResolver(){
+
+			@Override
+			public XPathFunction resolveFunction(QName name, int arity) {
+				if (GrammarNode.FUNC_RANDOM.equals(name.getLocalPart())){
+					return new XPathFunctionRandom();											
+				}
+				return null;
 			}
 		});
 		this.ctx=ctx;

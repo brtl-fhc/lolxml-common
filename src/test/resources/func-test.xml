@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+	<lol:data>
+		<name>foo</name>
+		<name>bar</name>
+		<name>baz</name>
+	</lol:data>
+
+	<lol:sym id="ROOT">
+	    random() = <lol:exp value="fn:random()"/>    	    
+	    random() = <lol:exp value="fn:random()"/>    	    
+	    random() = <lol:exp value="fn:random()"/>    	    
+	    
+	    random(10) = <lol:exp value="fn:random(10)"/>
+	    random(10) = <lol:exp value="fn:random(10)"/>
+	    random(10) = <lol:exp value="fn:random(10)"/>
+	        
+	    random(name) = <lol:exp value="fn:random(name)"/>
+	    random(name) = <lol:exp value="fn:random(name)"/>
+	    random(name) = <lol:exp value="fn:random(name)"/>    	    
+	</lol:sym>
+
+	<lol:eval idref="ROOT" />
+</lol:grammar>

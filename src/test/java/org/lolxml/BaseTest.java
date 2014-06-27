@@ -93,4 +93,10 @@ public class BaseTest extends TestCase
     	String s=run("/html-test.xml");
     	System.out.println(s);
     }
+    
+    public void testFunc()
+    {
+    	String s=run("/func-test.xml");
+    	System.out.println(s);
+    }
 }

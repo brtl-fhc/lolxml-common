@@ -45,6 +45,8 @@ public abstract class GrammarNode {
 	
 	public static final String NAMESPACE = "http://lolxml.org";
 	
+	public static final String FUNC_RANDOM = "random";
+	
 	protected boolean mixed;
 	protected Node xmlNode;
 	protected List<GrammarNode> children;
