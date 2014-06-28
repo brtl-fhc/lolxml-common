@@ -1,10 +1,16 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
+import org.lolxml.node.xpath.NodeListIterator;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Iterate through nodeset specified by inline XPath (select), referenced
+ * Exp (idref) or stored in property (property), and evaluate content.
+ * Exposes active node as property (name declared in "var" attribute).
+ */
 public class ForEach extends GrammarNode {
 
 	String idref;
@@ -22,6 +28,7 @@ public class ForEach extends GrammarNode {
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		NodeList items=null;
 		if (select!=null){

@@ -1,4 +1,4 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
@@ -13,6 +13,7 @@ public class Data extends GrammarNode {
 	}
 
 	@Override
+	public
 	void eval(Writer out) {
 		// Can't execute data. Do nothing
 	}

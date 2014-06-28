@@ -16,7 +16,7 @@
       
   <sym id="ROOT">
     <store property="animalName" idref="NAME" />
-    <store property="animal" idRef="selectAnimal" type="node"/>
+    <store property="animal" idref="selectAnimal" type="node"/>
     <store property="sound"><exp value="$animal/sound"/></store>
     <store property="sound.x2"><exp value="concat($sound,'-',$sound)" /></store>
     Old MacDonald had a farm, E-I-E-I-O,

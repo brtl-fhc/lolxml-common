@@ -1,10 +1,11 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,6 +53,7 @@ public class Grammar extends GrammarNode{
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		reset();
 		// Execute last eval (should be only one)

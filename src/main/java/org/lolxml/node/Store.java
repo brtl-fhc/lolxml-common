@@ -1,10 +1,17 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Node;
 
+/**
+ * Store the result of either an inline XPath (if select + type are present),
+ * a referenced Exp/Sym (if idref is present), or nested content, 
+ * into a document property. Properties are global, and can 
+ * be overwritten.
+ */
 public class Store extends GrammarNode {
 	
 	String property;
@@ -23,6 +30,7 @@ public class Store extends GrammarNode {
 	
 	/** Silent eval, stores inline XPath, IDREF result or nested content in property */
 	@Override
+	public
 	void eval(Writer out) {
 		if (select!=null){
 			storeSelect();

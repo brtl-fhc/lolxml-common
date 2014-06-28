@@ -1,9 +1,11 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+/** Non-schema markup (HTML) tags. Passed through as output. */
 
 public class ForeignTag extends GrammarNode {
 
@@ -25,6 +27,7 @@ public class ForeignTag extends GrammarNode {
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		try{
 			out.write("<"+xmlNode.getLocalName()+printAttributes()+">");

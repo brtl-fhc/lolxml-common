@@ -1,9 +1,13 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
 import org.w3c.dom.Node;
 
+/**
+ * Conditional loop specified by inline boolean XPath (test), 
+ * 	referenced boolean Exp (idref) or stored in property (property).
+ */
 public class While extends GrammarNode {
 
 	String idref;
@@ -34,6 +38,7 @@ public class While extends GrammarNode {
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		while (runTest()){
 			super.eval(out);

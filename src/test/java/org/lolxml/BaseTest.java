@@ -2,30 +2,21 @@ package org.lolxml;
 
 import java.io.StringWriter;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
-
-import org.w3c.dom.Document;
 import junit.framework.TestCase;
 
-/**
- * Unit test for simple App.
- */
 public class BaseTest extends TestCase
 {
-    
+
+	/** Load XML from classpath resource, and run. 
+	 * 
+	 * @return Evaluation result.
+	 */
 	private String run(String sPath){
 		String sRet=null;
 		try{
-			DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			dbf.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema(new StreamSource(getClass().getResourceAsStream("/lolxml.xsd"))));
-			Document doc=dbf.newDocumentBuilder().parse(getClass().getResourceAsStream(sPath));
-			GrammarNode g=Grammar.parse(doc);
+			Main main=new Main();
 			StringWriter sw=new StringWriter();
-			g.eval(sw);
+			main.loadAndWrite(getClass().getResourceAsStream(sPath), sw);
 			sRet= sw.toString();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -34,11 +25,6 @@ public class BaseTest extends TestCase
 		return sRet;
 	}
 	
-    public void testGrammars()
-    {
-    	System.out.println(run("/majesty.xml"));
-    	System.out.println(run("/androidtxol.xml"));
-    }
     
     public void testExpString()
     {
@@ -48,7 +34,7 @@ public class BaseTest extends TestCase
     
     public void testExpNode()
     {
-    	String s=run("/exp-string-test.xml");
+    	String s=run("/exp-node-test.xml");
     	System.out.println(s);
     }
     

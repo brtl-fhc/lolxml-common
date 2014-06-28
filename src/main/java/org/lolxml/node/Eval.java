@@ -1,4 +1,4 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
@@ -16,6 +16,7 @@ public class Eval extends GrammarNode {
 	}
 
 	@Override
+	public
 	void eval(Writer out) {
 		if (idRef!=null){
 			evalRef(out);

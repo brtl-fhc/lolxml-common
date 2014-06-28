@@ -1,9 +1,13 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
 import org.w3c.dom.Node;
 
+/** 
+ * Conditional evaluator specified by inline boolean XPath (test), 
+ * 	referenced boolean Exp (idref) or stored in property (property).
+ */
 public class If extends GrammarNode {
 
 	String idref;
@@ -19,6 +23,7 @@ public class If extends GrammarNode {
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		boolean bResult=false;
 		if (test!=null){

@@ -1,4 +1,4 @@
-package org.lolxml;
+package org.lolxml.node.xpath;
 
 import java.util.Map;
 
@@ -10,17 +10,18 @@ import javax.xml.xpath.XPathFunction;
 import javax.xml.xpath.XPathFunctionResolver;
 import javax.xml.xpath.XPathVariableResolver;
 
+import org.lolxml.Constants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /** Encapsulate XPath evaluation */
-public class XPathEvaluator {
+public class XPathEvaluator implements Constants{
 	
 	XPath xpath;
 	Node ctx;
 	
 	
-	void init(Node ctx, final Map<String, Object> properties){
+	public void init(Node ctx, final Map<String, Object> properties){
 		XPathFactory factory = XPathFactory.newInstance();
 		xpath = factory.newXPath();
 		xpath.setXPathVariableResolver(new XPathVariableResolver(){
@@ -33,7 +34,7 @@ public class XPathEvaluator {
 
 			@Override
 			public XPathFunction resolveFunction(QName name, int arity) {
-				if (GrammarNode.FUNC_RANDOM.equals(name.getLocalPart())){
+				if (FUNC_RANDOM.equals(name.getLocalPart())){
 					return new XPathFunctionRandom();											
 				}
 				return null;
@@ -57,11 +58,11 @@ public class XPathEvaluator {
 	}
 	
 	public QName expType(String sExpType){
-		return	sExpType.equalsIgnoreCase(GrammarNode.TYPE_NODESET)	? XPathConstants.NODESET
-				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_BOOLEAN)	? XPathConstants.BOOLEAN
-				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_NUMBER)	? XPathConstants.NUMBER
-				: sExpType.equalsIgnoreCase(GrammarNode.TYPE_NODE)		? XPathConstants.NODE 
-																		: XPathConstants.STRING;
+		return	sExpType.equalsIgnoreCase(TYPE_NODESET)		? XPathConstants.NODESET
+				: sExpType.equalsIgnoreCase(TYPE_BOOLEAN)	? XPathConstants.BOOLEAN
+				: sExpType.equalsIgnoreCase(TYPE_NUMBER)	? XPathConstants.NUMBER
+				: sExpType.equalsIgnoreCase(TYPE_NODE)		? XPathConstants.NODE 
+															: XPathConstants.STRING;
 	}
 	
 	public String evalAsString(String sExp){

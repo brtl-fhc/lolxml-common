@@ -2,9 +2,8 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://lolxml.org"
 	xmlns:lol="http://lolxml.org" elementFormDefault="qualified">
 
-	<!-- Support lookup data (not optional anymore, inits XPath evaluator.
-		Can be empty, though) -->
-
+	<!-- Support lookup data. Not optional anymore, it inits XPath evaluator.
+		Can be empty, though. -->
 	<complexType name="dataType">
 		<sequence>
 			<any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
@@ -30,7 +29,7 @@
 	</complexType>
 
 
-	<!-- Symbols (non-terminal) -->
+	<!-- Non-terminal symbol. Evaluates its content when referenced. -->
 	<complexType name="symType">
 		<complexContent>
 			<extension base="lol:rightElement">
@@ -88,15 +87,13 @@
 		</complexContent>
 	</complexType>
 	
-	<!-- Evaluation: references symbols, vars, expressions and properties-->
+	<!-- Evaluation: references symbols, expressions and properties-->
 	<complexType name="evalType">
 		<attribute name="idref" type="IDREF" />
 		<attribute name="property" type="NMTOKEN" />
 	</complexType>
 	
-	<!-- Evaluates XPath expression in @value (using data as context), or 
-		nested content if return is empty, there's no data or XPath is not
-		supported)
+	<!-- Evaluates XPath expression in @value (using data element as context).
 	-->
 	<complexType name="expType">
 		<complexContent>

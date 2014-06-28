@@ -1,4 +1,4 @@
-package org.lolxml;
+package org.lolxml.node;
 
 import java.io.Writer;
 
@@ -11,6 +11,7 @@ public class Text extends GrammarNode {
 	}
 	
 	@Override
+	public
 	void eval(Writer out) {
 		try{
 			out.write(xmlNode.getNodeValue());

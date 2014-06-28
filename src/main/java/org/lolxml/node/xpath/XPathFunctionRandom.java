@@ -1,4 +1,4 @@
-package org.lolxml;
+package org.lolxml.node.xpath;
 
 import java.util.List;
 import java.util.Random;
