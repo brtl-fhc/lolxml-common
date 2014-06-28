@@ -1,5 +1,22 @@
+/* 
+ * Copyright 2014 the original author or authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *     
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ */
+
 package org.lolxml.node;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +70,7 @@ public class Grammar extends GrammarNode{
 	}
 	
 	@Override
-	public
-	void eval(Writer out) {
+	protected void eval(Writer out) throws IOException{
 		reset();
 		// Execute last eval (should be only one)
 		NodeList nl=((Element)xmlNode).getElementsByTagNameNS(NAMESPACE,TAG_EVAL);
@@ -65,14 +81,18 @@ public class Grammar extends GrammarNode{
 	}
 
 	public void doGenerate(Writer w){
-		eval(w);
+		try{
+			eval(w);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
-	public void putProperty(String sKey, Object value){
+	void putProperty(String sKey, Object value){
 		documentProperties.put(sKey, value);
 	}
 	
-	public Object getProperty(String sKey){
+	Object getProperty(String sKey){
 		return documentProperties.get(sKey);
 	}
 }

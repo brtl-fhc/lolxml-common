@@ -41,7 +41,7 @@
 			<configuration>
 				<archive>
 					<manifest>
-						<mainClass>org.lolxml.Main</mainClass>
+						<mainClass>org.lolxml.LolXML</mainClass>
 						<packageName>org.lolxml</packageName>
 					</manifest>
 				</archive>
