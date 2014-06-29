@@ -43,7 +43,7 @@ public class LolXML {
 	}
 	
 	/** Load LolXML grammar
-	 * @param bValidate Use Schema to validate (might crash Android). */
+	 * @param bValidate Use Schema to validate (might crash on Android). */
 	public static Grammar load(InputStream in, boolean bValidate) {
 		DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);

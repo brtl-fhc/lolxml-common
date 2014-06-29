@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org ../src/main/resources/lolxml.xsd ">
+
+    <!-- Programming demo from: 									-->
+    <!--						http://www.99-bottles-of-beer.net/	-->
+    
+    
+	<lol:data>
+	    <start>99</start>
+	</lol:data>
+
+	<lol:sym id="VERSES">
+		<lol:exp value="$bottles"/> bottles of beer on the wall, <lol:exp value="$bottles"/> bottles of beer.
+		Take one down and pass it around, <lol:exp value="$bottles - 1"/> bottles of beer on the wall.
+		<lol:store property="bottles" select="$bottles - 1" type="number" />
+		<lol:if test="$bottles > 2"><lol:eval idref="VERSES"/></lol:if></lol:sym>
+	
+	<lol:sym id="SONG">
+		<lol:eval idref="VERSES"/>
+		2 bottles of beer on the wall, 2 bottles of beer.
+		Take one down and pass it around, 1 bottle of beer on the wall.
+
+
+		1 bottle of beer on the wall, 1 bottle of beer.
+		Take one down and pass it around, no more bottles of beer on the wall.
+
+
+		No more bottles of beer on the wall, no more bottles of beer.
+		Go to the store and buy some more, 99 bottles of beer on the wall.
+	</lol:sym>
+		
+	<lol:sym id="ROOT">
+	    <lol:store property="bottles" type="number" select="start"/>
+	    <lol:eval idref="SONG"/>
+	</lol:sym>
+	
+	<lol:eval idref="ROOT"/>
+	
+</lol:grammar>
