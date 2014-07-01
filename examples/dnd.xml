@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org ../src/main/resources/lolxml.xsd ">
+
+    <!-- A D&D character generator prototype. -->
+    
+	<lol:data>
+	    <classes>
+	    	<class><name>Fighter</name><hp><d>10</d></hp></class>
+	    	<class><name>Cleric</name><hp><d>8</d></hp></class>
+	    	<class><name>Magic-user</name><hp><d>4</d></hp></class>
+	    	<class><name>Ranger</name><hp><d>8</d><d>8</d></hp></class>>
+	    	<class><name>Thief</name><hp><d>6</d></hp></class>
+	    	<class><name>Bard</name><hp><d>10</d></hp></class>
+	    	<class><name>Paladin</name><hp><d>12</d></hp></class>
+	    </classes>
+	    <lowercase>abcdefghijklmnopqrstuvwxyz</lowercase>
+	    <uppercase>ABCDEFGHIJKLMNOPQRSTUVWXYZ</uppercase>
+	</lol:data>
+
+	<lol:exp id="roll3d6" value="fn:random(6)+1+fn:random(6)+1+fn:random(6)+1"/>
+	
+	<!-- Name randomizer productions. -->
+	
+	<lol:sym id="VOWEL"><lol:switch>
+	    <lol:case>a</lol:case>
+	    <lol:case>e</lol:case>
+	    <lol:case>i</lol:case>
+	    <lol:case>o</lol:case>
+	    <lol:case>u</lol:case>
+	    <lol:case>y</lol:case>
+	    <lol:case>ae</lol:case></lol:switch></lol:sym>	
+
+	<lol:sym id="CONSONANT"><lol:switch>
+	    <lol:case>b</lol:case>
+	    <lol:case>c</lol:case>
+	    <lol:case>d</lol:case>
+	    <lol:case>f</lol:case>
+	    <lol:case>g</lol:case>
+	    <lol:case>h</lol:case>
+	    <lol:case>j</lol:case>
+	    <lol:case>k</lol:case>
+	    <lol:case>l</lol:case>
+	    <lol:case>m</lol:case>
+	    <lol:case>n</lol:case>
+	    <lol:case>p</lol:case>
+	    <lol:case>q</lol:case>
+	    <lol:case>r</lol:case>
+	    <lol:case>s</lol:case>
+	    <lol:case>t</lol:case>
+	    <lol:case>v</lol:case>
+	   	<lol:case>w</lol:case>
+	   	<lol:case>x</lol:case>
+	   	<lol:case>y</lol:case>
+	   	<lol:case>z</lol:case>
+	   	<lol:case>th</lol:case>
+	   	<lol:case>'</lol:case></lol:switch></lol:sym>	
+
+	<!-- Syllable patterns -->
+	
+	<lol:sym id="SYL"><lol:switch>
+	    <lol:case><lol:eval idref="VOWEL"/></lol:case>
+	    <lol:case><lol:eval idref="VOWEL"/><lol:eval idref="CONSONANT"/></lol:case>
+	    <lol:case><lol:eval idref="CONSONANT"/><lol:eval idref="VOWEL"/></lol:case>
+	    <lol:case><lol:eval idref="CONSONANT"/><lol:eval idref="VOWEL"/><lol:eval idref="CONSONANT"/></lol:case>
+	    <lol:case><lol:eval idref="CONSONANT"/><lol:eval idref="VOWEL"/><lol:eval idref="VOWEL"/><lol:eval idref="CONSONANT"/></lol:case></lol:switch></lol:sym>		
+	
+	<!-- Name is built recursively: name -> syllable+(name)? -->
+	
+	<lol:sym id="NAME"><lol:eval idref="SYL"/><lol:switch><lol:case/><lol:case><lol:eval idref="NAME"/></lol:case></lol:switch></lol:sym>
+	
+	<!-- workaround for upper-case() -->
+	<lol:sym id="CNAME"><lol:store property="nameLowerCase"><lol:eval idref="NAME"/></lol:store><lol:exp value="translate(substring($nameLowerCase,1,1),lowercase,uppercase)"/><lol:exp value="substring($nameLowerCase,2)"/></lol:sym>
+
+	
+	<!-- Some Dragonlance-themed surnames -->
+	
+	<lol:sym id="ENGSUR1"><lol:switch>
+	    <lol:case>Black</lol:case>
+	    <lol:case>Steel</lol:case>
+	    <lol:case>Iron</lol:case>
+	    <lol:case>Strong</lol:case>
+	    <lol:case>Clear</lol:case>
+	    <lol:case>Frost</lol:case>
+	    <lol:case>Gold</lol:case>
+	    <lol:case>Silver</lol:case>
+	    <lol:case>Fire</lol:case>
+	    <lol:case>Water</lol:case>
+	    <lol:case>Deep</lol:case>
+	    <lol:case>High</lol:case>
+	    <lol:case>Hawk</lol:case>
+	    <lol:case>Stone</lol:case>
+	    <lol:case>Dark</lol:case>
+	    <lol:case>Crystal</lol:case>
+	    <lol:case>Red</lol:case>
+	    <lol:case>Dragon</lol:case>
+	    <lol:case>Grey</lol:case>
+	    <lol:case>River</lol:case>
+		<lol:case>Thunder</lol:case>
+		<lol:case>Storm</lol:case>
+		<lol:case>Spell</lol:case>
+		<lol:case>Wyrm</lol:case>
+		<lol:case>Orc</lol:case>
+		<lol:case>Old</lol:case></lol:switch></lol:sym>
+
+	<lol:sym id="ENGSUR2"><lol:switch>
+	    <lol:case>blade</lol:case>
+	    <lol:case>sword</lol:case>
+	    <lol:case>forge</lol:case>
+	    <lol:case>blood</lol:case>
+	    <lol:case>moon</lol:case>
+	    <lol:case>sun</lol:case>
+	    <lol:case>wind</lol:case>
+	    <lol:case>stream</lol:case>
+	    <lol:case>cloud</lol:case>
+	    <lol:case>sky</lol:case>
+	    <lol:case>wood</lol:case>
+	    <lol:case>cove</lol:case>
+	    <lol:case>fiend</lol:case>
+	    <lol:case>fist</lol:case>
+		<lol:case>arm</lol:case>
+		<lol:case>hand</lol:case>
+		<lol:case>bow</lol:case>
+		<lol:case>arrow</lol:case>
+		<lol:case>dagger</lol:case>
+		<lol:case>knife</lol:case>
+		<lol:case>axe</lol:case>
+		<lol:case>bow</lol:case>
+		<lol:case>stride</lol:case>
+		<lol:case>bow</lol:case>
+		<lol:case>bringer</lol:case>
+		<lol:case>slayer</lol:case>
+		<lol:case>hood</lol:case>
+		<lol:case>wood</lol:case>
+		<lol:case>burg</lol:case></lol:switch></lol:sym>
+		    
+	<lol:sym id="SURNAME"><lol:switch>
+	    <lol:case><lol:eval idref="CNAME"/></lol:case>
+	    <lol:case><lol:eval idref="ENGSUR1"/><lol:eval idref="ENGSUR2"/></lol:case></lol:switch></lol:sym>
+	
+	
+	<!-- Alignment. Turning Neutral Neutral into 'True neutral' is 	-->
+	<!-- left as exercise :-) 										-->
+
+	<lol:sym id="ALIGN"><lol:switch>
+		<lol:case>Lawful</lol:case>
+		<lol:case>Neutral</lol:case>
+		<lol:case>Chaotic</lol:case></lol:switch> <lol:switch>
+				<lol:case>Good</lol:case>
+				<lol:case>Neutral</lol:case>
+				<lol:case>Evil</lol:case></lol:switch></lol:sym>
+	
+	<lol:sym id="CLASS"><lol:exp value="fn:random(classes/class/name)"/></lol:sym>
+	
+	<lol:sym id="RACE"><lol:switch>
+	    <lol:case>Human</lol:case>
+	    <lol:case>Elf</lol:case>
+	    <lol:case>Dwarf</lol:case>
+	    <lol:case>Halfling</lol:case>
+	    <lol:case>Gnome</lol:case>
+	    <lol:case>Half-Elf</lol:case></lol:switch></lol:sym>
+	
+	<!-- Calculate hit dice using random() (no modifiers, though) -->
+	
+	<lol:sym id="HP"><lol:store property="hp" type="number">0</lol:store><lol:foreach var="die" select="classes/class[name=$class]/hp/d"><lol:store property="hp" select="$hp+fn:random(number($die))+1"/></lol:foreach><lol:eval property="hp"/></lol:sym>
+
+	
+	<!-- Root production: a basic character sheet. -->
+	
+	<lol:sym id="ROOT">
+		Name: 	<lol:eval idref="CNAME" /> <lol:eval idref="SURNAME"/>
+		Class: 	<lol:store property="class"><lol:eval idref="CLASS"/></lol:store><lol:eval property="class"/>
+		Race: 	<lol:eval idref="RACE"/>
+		Level:	1
+		
+		Str:	<lol:eval idref="roll3d6"/> 
+		Con:	<lol:eval idref="roll3d6"/>
+		Dex:	<lol:eval idref="roll3d6"/>
+		Int:	<lol:eval idref="roll3d6"/>
+		Wis:	<lol:eval idref="roll3d6"/>
+		Cha:	<lol:eval idref="roll3d6"/>
+		
+		HP:	<lol:eval idref="HP"/>
+	</lol:sym>
+	
+	<lol:eval idref="ROOT"/>
+	
+</lol:grammar>

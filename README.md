@@ -46,9 +46,10 @@ The entry point of the library is the LolXML class. Use LolXML.load() to parse
 the XML source. Subsequent calls to doGenerate() on the Grammar object will 
 render an evaluation of the grammar to an output stream.
 
+```java
 	Grammar root=LolXML.load(inputStream, false); // Disabling schema validation
 	root.doGenerate(outputStream);
-
+```
 The LolXML grammar specification schema
 =======================================
 
