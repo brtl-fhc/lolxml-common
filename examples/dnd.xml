@@ -134,7 +134,9 @@
 		<lol:case>hood</lol:case>
 		<lol:case>wood</lol:case>
 		<lol:case>burg</lol:case></lol:switch></lol:sym>
-		    
+	
+	<!-- Surnames can be random (name-like) or English. -->
+	
 	<lol:sym id="SURNAME"><lol:switch>
 	    <lol:case><lol:eval idref="CNAME"/></lol:case>
 	    <lol:case><lol:eval idref="ENGSUR1"/><lol:eval idref="ENGSUR2"/></lol:case></lol:switch></lol:sym>
