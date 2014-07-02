@@ -77,48 +77,51 @@
 	<!-- Some Dragonlance-themed surnames -->
 	
 	<lol:sym id="ENGSUR1"><lol:switch>
-	    <lol:case>Black</lol:case>
-	    <lol:case>Steel</lol:case>
-	    <lol:case>Iron</lol:case>
-	    <lol:case>Strong</lol:case>
-	    <lol:case>Clear</lol:case>
-	    <lol:case>Frost</lol:case>
-	    <lol:case>Gold</lol:case>
-	    <lol:case>Silver</lol:case>
-	    <lol:case>Fire</lol:case>
-	    <lol:case>Water</lol:case>
-	    <lol:case>Deep</lol:case>
-	    <lol:case>High</lol:case>
-	    <lol:case>Hawk</lol:case>
-	    <lol:case>Stone</lol:case>
-	    <lol:case>Dark</lol:case>
-	    <lol:case>Crystal</lol:case>
-	    <lol:case>Red</lol:case>
-	    <lol:case>Dragon</lol:case>
-	    <lol:case>Grey</lol:case>
-	    <lol:case>River</lol:case>
+		<lol:case>Black</lol:case>
+		<lol:case>Steel</lol:case>
+		<lol:case>Iron</lol:case>
+		<lol:case>Strong</lol:case>
+		<lol:case>Clear</lol:case>
+		<lol:case>Frost</lol:case>
+		<lol:case>Gold</lol:case>
+		<lol:case>Silver</lol:case>
+		<lol:case>Fire</lol:case>
+		<lol:case>Water</lol:case>
+		<lol:case>Deep</lol:case>
+		<lol:case>High</lol:case>
+		<lol:case>Hawk</lol:case>
+		<lol:case>Stone</lol:case>
+		<lol:case>Dark</lol:case>
+		<lol:case>Crystal</lol:case>
+		<lol:case>Red</lol:case>
+		<lol:case>Dragon</lol:case>
+		<lol:case>Grey</lol:case>
+		<lol:case>River</lol:case>
 		<lol:case>Thunder</lol:case>
 		<lol:case>Storm</lol:case>
 		<lol:case>Spell</lol:case>
 		<lol:case>Wyrm</lol:case>
 		<lol:case>Orc</lol:case>
-		<lol:case>Old</lol:case></lol:switch></lol:sym>
+		<lol:case>Old</lol:case>
+		<lol:case>Raven</lol:case>
+		<lol:case>Lion</lol:case>
+		<lol:case>Wild</lol:case></lol:switch></lol:sym>
 
 	<lol:sym id="ENGSUR2"><lol:switch>
-	    <lol:case>blade</lol:case>
-	    <lol:case>sword</lol:case>
-	    <lol:case>forge</lol:case>
-	    <lol:case>blood</lol:case>
-	    <lol:case>moon</lol:case>
-	    <lol:case>sun</lol:case>
-	    <lol:case>wind</lol:case>
-	    <lol:case>stream</lol:case>
-	    <lol:case>cloud</lol:case>
-	    <lol:case>sky</lol:case>
-	    <lol:case>wood</lol:case>
-	    <lol:case>cove</lol:case>
-	    <lol:case>fiend</lol:case>
-	    <lol:case>fist</lol:case>
+		<lol:case>blade</lol:case>
+		<lol:case>sword</lol:case>
+		<lol:case>forge</lol:case>
+		<lol:case>blood</lol:case>
+		<lol:case>moon</lol:case>
+		<lol:case>sun</lol:case>
+		<lol:case>wind</lol:case>
+		<lol:case>stream</lol:case>
+		<lol:case>cloud</lol:case>
+		<lol:case>sky</lol:case>
+		<lol:case>wood</lol:case>
+		<lol:case>cove</lol:case>
+		<lol:case>fiend</lol:case>
+		<lol:case>fist</lol:case>
 		<lol:case>arm</lol:case>
 		<lol:case>hand</lol:case>
 		<lol:case>bow</lol:case>
@@ -133,6 +136,11 @@
 		<lol:case>slayer</lol:case>
 		<lol:case>hood</lol:case>
 		<lol:case>wood</lol:case>
+		<lol:case>claw</lol:case>
+		<lol:case>lance</lol:case>
+		<lol:case>spear</lol:case>
+		<lol:case>rock</lol:case>
+		<lol:case>heart</lol:case>
 		<lol:case>burg</lol:case></lol:switch></lol:sym>
 	
 	<!-- Surnames can be random (name-like) or English. -->
@@ -143,7 +151,7 @@
 	
 	
 	<!-- Alignment. Turning Neutral Neutral into 'True neutral' is 	-->
-	<!-- left as exercise :-) 										-->
+	<!-- left as exercise :-) 					-->
 
 	<lol:sym id="ALIGN"><lol:switch>
 		<lol:case>Lawful</lol:case>
