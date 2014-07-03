@@ -104,4 +104,9 @@ public class BaseTest extends TestCase
     	System.out.println(s);
     }
     
+    public void testWhitespace()
+    {
+    	String s=run("/whitespace-test.xml");
+    	System.out.println(s);
+    }
 }

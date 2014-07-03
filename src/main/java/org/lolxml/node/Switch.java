@@ -26,19 +26,17 @@ import org.w3c.dom.Node;
  * from its children.
  */
 public class Switch extends GrammarNode {
-	boolean bRandom=true;
+
 	protected Switch(Node xmlNode) {
 		super(xmlNode);
 	}
 
 	@Override
 	protected void eval(Writer out) throws IOException{
-		GrammarNode gn=null;
-		if (bRandom){
-			gn=children.get(getGrammar().getRandom().nextInt(children.size()));
-		}
-		if (gn!=null)
+		GrammarNode gn=children.get(getGrammar().getRandom().nextInt(children.size()));
+		if (gn!=null){
 			gn.eval(out);
+		}
 	}
 
 }

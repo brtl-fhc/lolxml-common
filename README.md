@@ -43,18 +43,38 @@ API
 ---
 
 The entry point of the library is the LolXML class. Use LolXML.load() to parse
-the XML source. Subsequent calls to doGenerate() on the Grammar object will 
-render an evaluation of the grammar to an output stream.
+the XML source. 
 
 ```java
 	Grammar root=LolXML.load(inputStream, false); // Disabling schema validation
+```
+Subsequent calls to doGenerate() on the Grammar object will 
+render an evaluation of the grammar to an output stream.
+
+```java
 	root.doGenerate(outputStream);
 ```
 The LolXML grammar specification schema
 =======================================
 
-The basics: non-terminal symbols (sym) and random choices (switch/case)
------------------------------------------------------------------------
+A LolXML file specifies a context-free generative grammar, a group of 
+production rules which define how non-terminal symbols on the left (named tokens
+which do not appear in the final output) are expanded into a combination
+of terminal (final output) or other non-terminal symbols, which are then
+expanded again until the output text (formed by terminal symbols only) is
+obtained. 
+
+	<SIGN> -> [+-*/]
+	<DIGIT> -> [0-9]
+	<NUMBER> ->  <DIGIT> | <DIGIT><NUMBER>
+	<EXPRESSION> -> <NUMBER> | <NUMBER><SIGN><EXPRESSION> | (<EXPRESSION>)
+
+In the above grammar, the root symbol EXPRESSION can produce strings
+like "2", "65+1", "(1*100/2)" or "(100-(50+25))".
+
+Basics: non-terminal symbols (sym) and random choices (switch/case)
+-------------------------------------------------------------------
+
 
 XPath Expressions (exp) and the data node 
 -----------------------------------------

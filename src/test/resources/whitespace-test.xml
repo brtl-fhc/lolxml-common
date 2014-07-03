@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+	
+	<lol:data />
+
+	<lol:sym id="TEXT">
+		Hello
+		<lol:switch>
+			<lol:case>cruel</lol:case>
+			<lol:case></lol:case>
+		</lol:switch>
+		World!
+	</lol:sym>
+
+	<lol:sym id="ROOT">
+	    <lol:store property="raw" idref="TEXT"/>
+	    <lol:exp value="normalize-space($raw)"/>
+	</lol:sym>
+	
+	<lol:eval idref="ROOT" />
+
+</lol:grammar>

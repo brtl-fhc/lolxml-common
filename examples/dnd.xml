@@ -182,6 +182,7 @@
 		Name: 	<lol:eval idref="CNAME" /> <lol:eval idref="SURNAME"/>
 		Class: 	<lol:store property="class"><lol:eval idref="CLASS"/></lol:store><lol:eval property="class"/>
 		Race: 	<lol:eval idref="RACE"/>
+		Gender:	<lol:switch><lol:case>M</lol:case><lol:case>F</lol:case></lol:switch>
 		Level:	1
 		
 		Str:	<lol:eval idref="roll3d6"/> 
