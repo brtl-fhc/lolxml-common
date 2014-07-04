@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://lolxml.org http://lolxml.org ">
+
+	<!-- Basic math expressions -->
+	<data />
+
+	<sym id="SIGN"><switch>	<case>+</case> <case>-</case>
+				<case>*</case> <case>/</case></switch></sym>
+
+	<sym id="DIGIT"><switch><case>0</case> <case>1</case> <case>2</case>
+				<case>3</case> <case>4</case> <case>5</case>
+				<case>6</case> <case>7</case> <case>8</case>
+				<case>9</case>
+	</switch></sym>
+
+	<sym id="NUMBER"><switch>
+		<case><eval idref="DIGIT"/></case>
+		<case><eval idref="DIGIT"/><eval idref="NUMBER"/></case>
+	</switch></sym>
+
+	<sym id="EXPRESSION"><switch>
+	   <case><eval idref="NUMBER"/></case> 
+	   <case><eval idref="NUMBER"/> <eval idref="SIGN"/> <eval idref="EXPRESSION"/></case> 
+	   <case>(<eval idref="EXPRESSION"/>)</case> 
+	</switch></sym>
+
+	<eval idref="EXPRESSION"/>
+
+</grammar>
