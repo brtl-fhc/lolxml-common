@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://lolxml.org http://lolxml.org ">
+
+	<!-- Math expressions using data, exp and random() -->
+	<data>
+		<signs xmlns="">
+			<sign>+</sign> <sign>-</sign>
+			<sign>*</sign> <sign>/</sign>
+		</signs>
+	</data>
+
+	<exp id="PickDigit" value="lol:random(10)" />
+
+	<sym id="SIGN"><exp value="lol:random(signs/sign)" /></sym>
+
+	<sym id="DIGIT"><eval idref="PickDigit" /></sym>
+
+	<sym id="NUMBER"><switch>
+		<case><eval idref="DIGIT"/></case>
+		<case><eval idref="DIGIT"/><eval idref="NUMBER"/></case>
+	</switch></sym>
+
+	<sym id="EXPRESSION"><switch>
+	   <case><eval idref="NUMBER"/></case> 
+	   <case><eval idref="NUMBER"/> <eval idref="SIGN"/> <eval idref="EXPRESSION"/></case> 
+	   <case>(<eval idref="EXPRESSION"/>)</case> 
+	</switch></sym>
+
+	<eval idref="EXPRESSION"/>
+
+</grammar>

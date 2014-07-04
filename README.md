@@ -148,8 +148,56 @@ Some output examples from this grammar:
 XPath Expressions (exp) and the data node 
 -----------------------------------------
 
-XPath Extension function
-------------------------
+In the example above, the rule with the all the digits looks ugly. We have
+also literal constants (digits, signs) mixed with the grammar rules. We can 
+move some of it into the data node, which can contain structured data in 
+XML format.
+
+```xml
+	<data>
+		<signs xmlns="">
+			<sign>+</sign> <sign>-</sign>
+			<sign>*</sign> <sign>/</sign>
+		</signs>
+	</data>
+```
+
+To access the data, we can use the exp element, which declares XPath
+expressions. The XPath string found in the value attribute will be parsed
+and run using data as context (i.e. node paths are relative to data). 
+
+We can rewrite the non-terminal SIGN as:
+
+```xml
+	<sym id="SIGN"><exp value="lol:random(signs/sign)" /></sym>
+```
+Note that the exp above is inline. An exp found in mixed content will be 
+evaluated as string and written immediately. 
+
+If, on the other hand, the exp is declared in the top-level, it's expected 
+to have an id attribute and it can be called from an eval (as we do with 
+sym's).
+
+We can replace the old DIGIT rule with a concise exp:
+
+```xml
+	<exp id="PickDigit" value="lol:random(10)" />
+	
+	<sym id="DIGIT"><eval idref="PickDigit" /></sym>
+```
+In this case, the exp is declared at the top level, given an id, and called 
+from an eval element. This allows complex XPath to be reused.
+
+The lol:random() function is an XPath extension provided by LolXML. It provides
+three modes of use:
+
+- lol:random(): returns a floating-point number between 0.0 and 1.0.
+- lol:random(i): returns an integer between 0 (inclusive) and i (exclusive).
+- lol:random(nodeset): returns a random node from the set.
+
+We made our grammar simpler using lol:random(10) to generate digits, and 
+lol:random(signs/sign) to pick the random sign (in replacement of the heavier 
+switch/case structure).
 
 Properties (store) and data types
 ---------------------------------
