@@ -109,4 +109,10 @@ public class BaseTest extends TestCase
     	String s=run("/whitespace-test.xml");
     	System.out.println(s);
     }
+    
+    public void testFuncEvaluate()
+    {
+    	String s=run("/func-evaluate-test.xml");
+    	System.out.println(s);
+    }
 }

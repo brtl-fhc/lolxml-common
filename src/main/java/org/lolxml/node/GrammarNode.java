@@ -17,6 +17,7 @@
 package org.lolxml.node;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +143,17 @@ public abstract class GrammarNode implements Constants{
 		String sRet=((Element)xmlNode).getAttribute(s);
 		if ("".equals(sRet)){
 			sRet=null;
+		}
+		return sRet;
+	}
+	
+	protected String evalReferenceAsString(String idref) throws IOException{
+		String sRet=null;
+		GrammarNode gnRef=getGrammar().getReference(idref);
+		if (gnRef!=null){
+			StringWriter sw=new StringWriter();
+			gnRef.eval(sw);
+			sRet=sw.toString();
 		}
 		return sRet;
 	}

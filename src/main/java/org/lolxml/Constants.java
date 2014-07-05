@@ -51,5 +51,6 @@ public interface Constants {
 	public static final String NAMESPACE = "http://lolxml.org";
 	
 	public static final String FUNC_RANDOM = "random";
+	public static final String FUNC_EVALUATE = "evaluate";
 	
 }

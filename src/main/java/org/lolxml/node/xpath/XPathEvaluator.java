@@ -36,8 +36,8 @@ public class XPathEvaluator implements Constants{
 	XPath xpath;
 	Node ctx;
 	
-	
-	public void init(Node ctx, final Map<String, Object> properties){
+	public void init(Node ctx, final Map<String, Object> properties, 
+			final ReferenceResolver referenceResolver){
 		XPathFactory factory = XPathFactory.newInstance();
 		xpath = factory.newXPath();
 		xpath.setXPathVariableResolver(new XPathVariableResolver(){
@@ -52,6 +52,9 @@ public class XPathEvaluator implements Constants{
 			public XPathFunction resolveFunction(QName name, int arity) {
 				if (FUNC_RANDOM.equals(name.getLocalPart())){
 					return new XPathFunctionRandom();											
+				}
+				if (FUNC_EVALUATE.equals(name.getLocalPart())){
+					return new XPathFunctionEvaluate(referenceResolver);
 				}
 				return null;
 			}

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.lolxml.node.xpath.ReferenceResolver;
 import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,7 +33,6 @@ public class Grammar extends GrammarNode{
 	Random random;
 	Element data;
 	Map<String,GrammarNode> references;
-	XPathEvaluator xpe;
 	Map<String,Object> documentProperties;
 	
 	protected Grammar(Node xmlNode){
@@ -44,8 +44,7 @@ public class Grammar extends GrammarNode{
 	
 	void setData(Element dataElement){
 		this.data=dataElement;
-		xpe=new XPathEvaluator();
-		xpe.init(this.data,documentProperties);
+
 	}
 	
 	public void addReference(String id,GrammarNode node){
@@ -61,6 +60,19 @@ public class Grammar extends GrammarNode{
 	}
 	
 	public XPathEvaluator getXPathEvaluator(){
+		XPathEvaluator xpe=new XPathEvaluator();
+		xpe.init(this.data,documentProperties, new ReferenceResolver(){
+			@Override
+			public String resolveReference(String sIdRef){
+				String sRet=null;
+				try{
+					sRet=evalReferenceAsString(sIdRef);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				return sRet;
+			}
+		});
 		return xpe;
 	}
 	

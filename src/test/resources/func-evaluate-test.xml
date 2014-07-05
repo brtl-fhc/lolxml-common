@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+    <!-- Node evaluation from XPath expression. -->
+    
+	<lol:data>
+		<ref>WORLD</ref>	
+	</lol:data>
+
+	<lol:sym id="WORLD">World</lol:sym>
+	
+	<lol:sym id="HELLO"><lol:exp value="'Hello'"/></lol:sym>
+
+	<lol:sym id="ROOT">
+	    <lol:exp value="lol:evaluate('HELLO')"/> <lol:exp value="lol:evaluate(ref)"/>
+	</lol:sym>
+
+	<lol:eval idref="ROOT" />
+</lol:grammar>
