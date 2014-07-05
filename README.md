@@ -1,7 +1,7 @@
 LolXML
 ======
 
-A Java library to generate rule-based (possibly) random text defined in XML.
+A Java library to generate rule-based random text defined specified in XML.
  
 Intends to provide a powerful, flexible framework for automated parody (think
 generators of band names, corporate-speak or Dan Brown plots).
@@ -17,8 +17,8 @@ library, the only requirements are Maven and JDK 1.6+.
 It will run on:
 
 - JRE 1.6 or later.
-- Android 2.2 or later (optional schema validation might not be available on some
-versions).
+- Android 2.2 or later (optional schema validation might not be available 
+on some versions).
 
 
 How to build
@@ -35,7 +35,8 @@ on test/lolxml-common-<Version>.jar
 Command line
 ------------
 
-The jar is runnable, try it with the provided examples or the unit tests.
+The jar is runnable, it's recommended to try it with the provided examples 
+or the unit tests.
 
 	java -jar target/lolxml-common-<version>.jar src/test/resources/if-test.xml 
 
@@ -46,7 +47,7 @@ The entry point of the library is the LolXML class. Use LolXML.load() to parse
 the XML source. 
 
 ```java
-	Grammar root=LolXML.load(inputStream, false); // Disabling schema validation
+	Grammar root=LolXML.load(inputStream, true);
 ```
 Subsequent calls to doGenerate() on the Grammar object will 
 render an evaluation of the grammar to an output stream.
@@ -64,12 +65,12 @@ are expanded into a combination of terminal (final output) or other
 non-terminal symbols, which are then expanded again until the output 
 text (where only terminal symbols remain) is obtained. 
 
-	<SIGN> -> [+-*/]
-	<DIGIT> -> [0-9]
+	<SIGN> 	-> + | - | * | /
+	<DIGIT> -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 	<NUMBER> ->  <DIGIT> | <DIGIT><NUMBER>
 	<EXPRESSION> -> <NUMBER> | <NUMBER><SIGN><EXPRESSION> | (<EXPRESSION>)
 
-In the above grammar, the root symbol EXPRESSION can produce strings
+In the above grammar, the root symbol EXPRESSION can be expanded into strings
 like "2", "65+1", "(1\*100/2)" or "(100-(50+25))".
 
 Basics: non-terminal symbols (sym) and random choices (switch/case)
@@ -110,7 +111,7 @@ The following is a direct translation of the above grammar to LolXML:
 
 </grammar>
 ```
-These are the most basic elements of a LolXML file:
+Here are the most basic elements of a LolXML file:
 
 - A grammar root element, which wraps the whole document.
 - A data element (empty at the moment, but required by the schema).
@@ -118,9 +119,10 @@ These are the most basic elements of a LolXML file:
 *evaluated* (expanded and written to the output stream). A sym element 
 has a unique id and can contain text (terminal symbols) or special 
 elements, which are evaluated recursively. It's a *mixed content* node.
-- A switch element represents a random choice in the evaluation. It can
-only contain case elements. When the runtime finds a switch, it will 
-randomly pick one of its children case nodes and evaluate just that one.
+- A switch element represents a random choice in the evaluation (the '|'
+in the formal notation). It can only contain case elements. When the 
+runtime finds a switch, it will randomly pick one of the case nodes and 
+evaluate just that one.
 - The case element is mixed-content as well (it allows text and other
 special tags).
 - The eval node can be found in mixed-content nodes and is a reference to an
@@ -150,8 +152,8 @@ XPath Expressions (exp) and the data node
 
 In the example above, the rule with the all the digits looks ugly. We have
 also literal constants (digits, signs) mixed with the grammar rules. We can 
-move some of it into the data node, which can contain structured data in 
-XML format.
+move some of it into the data node, which allows any structured data as long 
+as it's valid XML.
 
 ```xml
 	<data>
@@ -162,11 +164,11 @@ XML format.
 	</data>
 ```
 
-To access the data, we can use the exp element, which declares XPath
-expressions. The XPath string found in the value attribute will be parsed
+Data is selected from, exp elements, which declare XPath expressions. 
+The XPath string found in the value attribute will be parsed
 and run using data as context (i.e. node paths are relative to data). 
 
-We can rewrite the non-terminal SIGN as:
+We can rewrite the SIGN rule as:
 
 ```xml
 	<sym id="SIGN"><exp value="lol:random(signs/sign)" /></sym>
@@ -188,6 +190,72 @@ We can replace the old DIGIT rule with a concise exp:
 In this case, the exp is declared at the top level, given an id, and called 
 from an eval element. This allows complex XPath to be reused.
 
+Properties (store) and data types
+---------------------------------
+
+Normally, the document is explored, top-down, from the root element. When an
+evaluable node is found, it's expanded immediately to the output stream.
+
+Sometimes, though, it's convenient to reuse the result of a previously
+evaluated rule. For example, a selected person name that needs to appear 
+throughout the whole output document.
+
+Unlike XForms instances, LolXML grammars and data are immutable. That means
+the structured data under the data element will be identical for each 
+execution, and cannot be modified.
+
+It's possible, to keep values in properties. A property is a named variable
+which can store values of any XPath type (string, number, boolean, node 
+or node-set). A property is created on its first use, and its value can
+be reset at any time.
+
+The store element allows keeping values in properties. The name of the
+property to be set is specified by the property attribute. There are several
+ways to select the value to be set:
+
+- If a select attribute is present, its content is run as XPath. The store
+element allows choosing a type for the value to be converted to, if needed,
+before setting the property (string, boolean, node, nodeset, number). The
+default type is string.
+- If an idref attribute is present, the referenced node (usually a sym or
+exp) is located and evaluated, not writing the result to the program output,
+but capturing it, converted to the selected type and finally stored.
+- If none of the above attributes are present, the nested mixed content is
+evaluated and captured, converted to the selected type and stored.
+
+To recall the value of a property, the eval element uses the property attribute
+(alternative to idref, which is used for evaluable nodes). 
+
+
+Examples:
+
+```xml
+	<lol:store property="class"><lol:eval idref="CLASS"/></lol:store>
+	<lol:eval property="class"/>
+```
+The excerpt above sets the result of the CLASS rule into the 'class' property,
+and then writes it.
+
+Properties are also exposed like XPath variables: $foo in an XPath attribute 
+will be evaluated as the value kept in the "foo" property.
+
+
+```xml
+	<lol:store property="bottles" type="number" select="start"/>
+
+	<lol:store property="bottles" select="$bottles - 1" type="number" />
+```
+The value of the start data node is put in the property "bottles", and it's 
+then decreased by 1.
+
+
+XPath extension functions
+-------------------------
+
+LolXML defines two extension functions for XPath.
+
+*random()*
+
 The lol:random() function is an XPath extension provided by LolXML. It provides
 three modes of use:
 
@@ -199,11 +267,40 @@ We made our grammar simpler using lol:random(10) to generate digits, and
 lol:random(signs/sign) to pick the random sign (in replacement of the heavier 
 switch/case structure).
 
-Properties (store) and data types
----------------------------------
+
+*evaluate()*
+
+The function, lol:evaluate(string), expands evaluable nodes (referenced 
+by their id attribute) from an XPath expression. For example:
+
+```xml
+	<exp value="normalize-space(lol:evaluate('TXT'))" />
+```
+The above command would search the document for an evaluable element whose
+id is TXT, evaluate it and normalize its whitespace before it's written to the
+output stream.
+
 
 Procedural control: if, foreach and while
 -----------------------------------------
+
+Some constructions are easier to express using imperative statements than
+recursive grammar rules. For example, it's convenient to iterate a list 
+of values without recursion, or slightly altering the output depending of 
+some property (selecting a pronoun or verbal form).
+
+- if: Conditional evaluator with a test condition specified by inline 
+boolean XPath (test attribute), by a referenced Exp (idref) taken as boolean,
+ or stored in property (property).
+- foreach iterates through a nodeset, which can be  specified by inline 
+XPath (select attribute), a referenced Exp (idref) or stored in property 
+(property), writting the result of evaluating its nested content each time. 
+The active element of the set can be exposed as property (name declared 
+in "var" attribute).
+- while: Conditional loop specified by inline boolean XPath (test attribute), 
+by a referenced boolean Exp (idref attribute) or stored in property 
+(property attribute). 
+
 
 HTML output
 -----------
