@@ -3,9 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://lolxml.org ../src/main/resources/lolxml.xsd ">
 
-    <!-- Programming demo from: 									-->
-    <!--						http://www.99-bottles-of-beer.net/	-->
-    
+    <!-- As seen on http://www.99-bottles-of-beer.net/	-->
     
 	<lol:data>
 	    <start>99</start>

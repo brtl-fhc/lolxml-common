@@ -163,6 +163,10 @@ as it's valid XML.
 		</signs>
 	</data>
 ```
+The xmlns="" attribute is needed for the data elements to be local. It resets the
+default namespace to "no namespace". An alternative to doing this is having a prefix
+for the LolXML namespace. Both alternatives are used in the example grammars and unit
+tests.
 
 Data is selected from, exp elements, which declare XPath expressions. 
 The XPath string found in the value attribute will be parsed
@@ -289,21 +293,86 @@ recursive grammar rules. For example, it's convenient to iterate a list
 of values without recursion, or slightly altering the output depending of 
 some property (selecting a pronoun or verbal form).
 
-- if: Conditional evaluator with a test condition specified by inline 
-boolean XPath (test attribute), by a referenced Exp (idref) taken as boolean,
- or stored in property (property).
-- foreach iterates through a nodeset, which can be  specified by inline 
-XPath (select attribute), a referenced Exp (idref) or stored in property 
-(property), writting the result of evaluating its nested content each time. 
-The active element of the set can be exposed as property (name declared 
-in "var" attribute).
-- while: Conditional loop specified by inline boolean XPath (test attribute), 
-by a referenced boolean Exp (idref attribute) or stored in property 
+- if: Conditional evaluator. Evaluates its nested content if its test
+condition is true. Test condition may be specified by inline boolean XPath 
+(test attribute), referencing an Exp (idref) or recalling a runtime 
+property (property).
+
+	<lol:if test="$bottles > 2"><lol:eval idref="VERSES"/></lol:if></lol:sym>
+	
+- foreach: Nodeset iterator. Evaluates nested content one time for each node
+in the set, exposing the current node as a runtime property (declared by the
+var attribute). The nodeset to iterate may be selected using inline XPath 
+(select attribute), referencing an Exp (idref) or recalling a runtime property 
+(property).
+
+```xml
+   <foreach select="farm/animal" var="animal">
+	    <store property="animalSound" select="$animal/sound"/>
+	    <store property="sound.x2"><eval property="animalSound"/>-<eval property="animalSound"/></store>
+	    Old MacDonald had a farm, E-I-E-I-O,
+	    And on that farm he had a <exp value="$animal/@name"/>, E-I-E-I-O,
+	    With a <eval property="sound.x2"/> here and a <eval property="sound.x2"/> there
+	    Here a <eval property="animalSound"/>, there a <eval property="animalSound"/>, everywhere a <eval property="sound.x2"/>
+	    Old MacDonald had a farm, E-I-E-I-O. 
+    </foreach>
+
+```
+
+- while: Conditional loop. Evaluates its nested content while the test condition
+is true. Condition may be specified by inline boolean XPath (test attribute), 
+by a referenced boolean Exp (idref attribute) or recalling a runtime property 
 (property attribute). 
 
+```xml
+<while idref="tableInRange">
+	<store property="j" type="number" select="1"/>
+	<while test="$j &lt; 11">
+		<exp value="$i"/> x <exp value="$j"/> = <exp value="$i * $j"/>
+		<store property="j" type="number" select="$j+1" />
+	</while>
+	<store property="i" type="number" select="$i+1" />           
+</while>
+```
 
-HTML output
------------
+HTML output, whitespace and layout
+----------------------------------
+
+The nested content of LolXML elements admits foreign markup (elements from other
+namespaces, or without one) in the text. Those foreign elements will be simply
+rewritten to the output stream, allowing the generation of HTML contents.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<lol:grammar xmlns:lol="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+  
+  <lol:data>
+  	<name>World</name>
+  </lol:data>
+  
+  <lol:sym id="ROOT">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    	<body>
+    		<p class="cl1">Hello <b><lol:exp value="name"/>!</b></p>
+    	</body>
+    </html>
+  </lol:sym>
+  
+  <lol:eval idref="ROOT"/>
+</lol:grammar>
+```
+
+In the LolXML grammar processing, whitespace is preserved and written to the output stream. If
+the XML is "pretty-print" indented, output text can have unwanted whitespace at the beginning
+of lines.
+
+Some tricks for avoiding the unwanted whitespace problem:
+
+- Manually indent the file so text appears in the exact column it's wanted in the output.
+- Use the normalize-space on evaluation results to trim the namespace. 
+- Render the output as HTML and use its format capabilities. This makes the layout of
+rendered text independent of the indentation of the source XML. 
+
 
 License
 =======
