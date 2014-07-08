@@ -4,7 +4,7 @@ LolXML
 
 A Java library to generate rule-based random text defined specified in 
 XML. It intends to provide a powerful, flexible framework for automated 
-parody (think generators of band names, corporate-speak or Dan Brown plots).
+comedy (think generators of band names, corporate-speak or Dan Brown plots).
 
 Usage
 =====
@@ -54,6 +54,7 @@ print the result of evaluating the grammar to an output stream.
 ```java
 	root.doGenerate(outputStream);
 ```
+
 For more information on the API, generate the Javadoc with Maven.
 
 	mvn javadoc:javadoc
@@ -66,9 +67,10 @@ Writing LolXML grammars
 The LolXML schema
 -----------------
 
-An XML Schema is provided for LolXML grammars, _src/main/resources/lolxml.xsd_. An editor
-with schema validation and autocompleting features is highly recommended. The schema can 
-also be used to initialize a minimal XML file (Eclipse does this nicely). 
+The LolXML schema is found in the source tree `src/main/resources/lolxml.xsd`. An editor
+with schema validation and autocompleting features is highly recommended for editing
+grammars. XML-enabled editors (such as Eclipse) can also generate basic document
+instances.
 
 A basic grammar looks like this:
 
@@ -92,10 +94,16 @@ A basic grammar looks like this:
 </grammar>
 ```
 
+Runtime schema validation is optional, as it may not be supported in some versions of
+Android. Schema validation won't prevent non-passing documents from being loaded, it'll 
+just print any errors on stderr.
+
+
 Introduction to context-free grammars
 -------------------------------------
 
-A LolXML file specifies a context-free generative grammar. It has 
+A LolXML file specifies a [context-free generative grammar]
+(http://en.wikipedia.org/wiki/Context-free_grammar). It has 
 production rules which define how each non-terminal symbol on 
 its left side (named tokens which do not appear in the final output) 
 are expanded into a combination of terminal (final output) or other 
@@ -209,13 +217,14 @@ as it's valid XML.
 		</signs>
 	</data>
 ```
-The _xmlns=""_ attribute means the data elements are _local_: the default namespace is 
+
+The `xmlns=""` attribute means the data elements are _local_: the default namespace is 
 set to "no namespace". An alternative to doing this is having a prefix for the LolXML 
 tags, and using no prefix inside `data`. Both styles are present in the example
 grammars and unit tests.
 
-Data is selected using `exp` elements, which declare XPath 1.0 expressions. 
-The XPath string found in the _value_ attribute will be parsed
+Data is selected using `exp` elements, which wrap [XPath](http://www.w3.org/TR/xpath/) 
+expressions. The XPath string found in the _value_ attribute will be parsed
 and run using the `data` node as context (i.e. node paths will be assumed as 
 relative to `data`). 
 
@@ -224,6 +233,7 @@ We can rewrite the SIGN rule as:
 ```xml
 	<sym id="SIGN"><exp value="lol:random(signs/sign)" /></sym>
 ```
+
 Note that the `exp` above is inline (defined inside the element). An `exp` found in
 mixed content will be evaluated as a string and written, immediately. 
 
@@ -238,6 +248,7 @@ We can replace the old DIGIT rule with a concise top-level `exp`:
 	
 	<sym id="DIGIT"><eval idref="PickDigit" /></sym>
 ```
+
 In this case, the `exp` is declared outside the `eval`, at the top level, and it has 
 an _id_ to be referenced by `eval` elements. This allows complex XPath expressions to
 be organized and reused as the author sees convenient.
@@ -287,6 +298,7 @@ Examples:
 	<lol:store property="class"><lol:eval idref="CLASS"/></lol:store>
 	<lol:eval property="class"/>
 ```
+
 The excerpt above sets the result of the CLASS rule into the 'class' property,
 and then prints it.
 
@@ -299,6 +311,7 @@ will be printed as the value kept in the "foo" property.
 
 	<lol:store property="bottles" select="$bottles - 1" type="number" />
 ```
+
 The value of the &lt<start&gt; node under `data` is put in the property "bottles", 
 and it's then decreased by 1.
 
@@ -330,6 +343,7 @@ in a expression context. For example:
 ```xml
 	<exp value="normalize-space(lol:evaluate('TXT'))" />
 ```
+
 The above command would search the document for an evaluable element whose
 _id_ is "TXT", evaluate it and normalize its whitespace before it's printed to the
 output stream.
