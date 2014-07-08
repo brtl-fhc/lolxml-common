@@ -1,3 +1,4 @@
+
 LolXML
 ======
 
@@ -62,8 +63,37 @@ And find it under the _target/site/apidocs_ subdirectory.
 Writing LolXML grammars 
 =======================
 
-Intro: context-free grammars
-----------------------------
+The LolXML schema
+-----------------
+
+An XML Schema is provided for LolXML grammars, _src/main/resources/lolxml.xsd_. An editor
+with schema validation and autocompleting features is highly recommended. The schema can 
+also be used to initialize a minimal XML file (Eclipse does this nicely). 
+
+A basic grammar looks like this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://lolxml.org http://lolxml.org ">
+
+	<data> <!-- Data would go here --> </data>
+
+	<!-- Production rule(s): -->
+
+	<sym id="HELLO">Hello World!</sym>   
+
+
+	<!-- Evaluate root production: -->
+
+	<eval idref="HELLO"/>  
+
+</grammar>
+```
+
+Introduction to context-free grammars
+-------------------------------------
 
 A LolXML file specifies a context-free generative grammar. It has 
 production rules which define how each non-terminal symbol on 
@@ -86,7 +116,7 @@ like "2", "65+1", "(1\*100/2)" or "(100-(50+25))".
 Basics: non-terminal symbols (sym) and random choices (switch/case)
 -------------------------------------------------------------------
 
-The following is a direct translation of the above grammar to LolXML:
+The following is a direct LolXML translation of the example grammar:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -122,30 +152,30 @@ The following is a direct translation of the above grammar to LolXML:
 </grammar>
 ```
 
-Note than each production rule has its own __sym__ element, with an unique _id_. Within the 
-right part of the rule, a __switch__ element contains __case__ children, with alternative
+Note than each production rule has its own `sym` element, with an unique _id_. Within the 
+right part of the rule, a `switch` element contains `case` children, with alternative
 expansion patterns.
 
 The basic building blocks of a LolXML file are:
 
-- A __grammar__ root element, which wraps the whole document.
-- A __data__ element (empty in this case, but mandatory in the schema).
-- One or more __sym__ elements, which declare how each non-terminal symbol is
-*evaluated* (expanded and written to the output stream). A __sym__ element 
+- A `grammar` root element, which wraps the whole document.
+- A `data` element (empty in this case, but mandatory in the schema).
+- One or more `sym` elements, which declare how each non-terminal symbol is
+*evaluated* (expanded and written to the output stream). A `sym` element 
 has a unique id and can contain text (terminal symbols) or schema tags 
-elements, which will be evaluated recursively. __sym__ nodes are *mixed content*.
-- A __switch__ element represents a random choice in the evaluation (the disjunctive '|'
-in the formal notation). It can only contain __case__ elements. When the 
-runtime finds a __switch__, it will randomly pick one of the __case__ nodes and 
+elements, which will be evaluated recursively. `sym` nodes are *mixed content*.
+- A `switch` element represents a random choice in the evaluation (the disjunctive '|'
+in the formal notation). It can only contain `case` elements. When the 
+runtime finds a `switch`, it will randomly pick one of the `case` nodes and 
 evaluate just that one.
-- The __case__ element is mixed-content as well (it allows text and other
+- The `case` element is mixed-content as well (it allows text and other
 special tags).
-- The __eval__ node can be found in mixed-content nodes and is a reference to an
-evaluable element. When the runtime finds an __eval__ node, it will search 
+- The `eval` node can be found in mixed-content nodes and is a reference to an
+evaluable element. When the runtime finds an `eval` node, it will search 
 for the element whose _id_ matches the idref attribute), and writes the result
 of its evaluation to the output stream.
 
-At the end of the file is the top-level __eval__ node, which points to the
+At the end of the file is the top-level `eval` node, which points to the
 non-terminal symbol which represents the grammar's _root production_ (in this
 case, EXPRESSION).
 
@@ -168,7 +198,7 @@ XPath Expressions (exp) and the data node
 In the example provided by the previous section, the rule with the all the digits 
 looks ugly. We have also literal constants (digits, signs) mixed with the grammar 
 rules, which can be hard to keep track of if the file grows larger. We can move
-text constants into the __data__ node, which allows any structured data as long 
+text constants into the `data` node, which allows any structured data as long 
 as it's valid XML.
 
 ```xml
@@ -181,35 +211,35 @@ as it's valid XML.
 ```
 The _xmlns=""_ attribute means the data elements are _local_: the default namespace is 
 set to "no namespace". An alternative to doing this is having a prefix for the LolXML 
-tags, and using no prefix inside __data__. Both styles are present in the example
+tags, and using no prefix inside `data`. Both styles are present in the example
 grammars and unit tests.
 
-Data is selected using __exp__ elements, which declare XPath 1.0 expressions. 
+Data is selected using `exp` elements, which declare XPath 1.0 expressions. 
 The XPath string found in the _value_ attribute will be parsed
-and run using the __data__ node as context (i.e. node paths will be assumed as 
-relative to __data__). 
+and run using the `data` node as context (i.e. node paths will be assumed as 
+relative to `data`). 
 
 We can rewrite the SIGN rule as:
 
 ```xml
 	<sym id="SIGN"><exp value="lol:random(signs/sign)" /></sym>
 ```
-Note that the __exp__ above is inline (defined inside the element). An __exp__ found in
+Note that the `exp` above is inline (defined inside the element). An `exp` found in
 mixed content will be evaluated as a string and written, immediately. 
 
-If, on the other hand, the __exp__ is declared as a top-level element, it won't be run
+If, on the other hand, the `exp` is declared as a top-level element, it won't be run
 automatically. In that case it's expected to have an _id_ attribute, and can be called 
-from an __eval__ (as is the case with __sym__'s).
+from an `eval` (as is the case with `sym`'s).
 
-We can replace the old DIGIT rule with a concise top-level __exp__:
+We can replace the old DIGIT rule with a concise top-level `exp`:
 
 ```xml
 	<exp id="PickDigit" value="lol:random(10)" />
 	
 	<sym id="DIGIT"><eval idref="PickDigit" /></sym>
 ```
-In this case, the __exp__ is declared outside the __eval__, at the top level, and it has 
-an _id_ to be referenced by __eval__ elements. This allows complex XPath expressions to
+In this case, the `exp` is declared outside the `eval`, at the top level, and it has 
+an _id_ to be referenced by `eval` elements. This allows complex XPath expressions to
 be organized and reused as the author sees convenient.
 
 Properties (store) and data types
@@ -223,7 +253,7 @@ evaluated rule. For example, a selected person name needs to appear
 throughout the whole output document.
 
 Unlike XForms model instances, LolXML data are immutable. That means
-the structured data under the __data__ element will be identical for each 
+the structured data under the `data` element will be identical for each 
 execution, and cannot be modified.
 
 It's possible to keep values in _runtime properties_. A _property_ is a named
@@ -231,23 +261,23 @@ variable that "lives" outside the XML document. Properties can store values of a
 XPath type (string, number, boolean, node or node-set). A property is created on 
 its first use, and its value can be reset at any time.
 
-The __store__ element allows keeping values in properties. The name of the
+The `store` element allows keeping values in properties. The name of the
 property to be set is specified by the _property_ attribute. There are several
-ways to select the value to use in a __store__element:
+ways to select the value to use in a `store`element:
 
-- If a _select_ attribute is present, its content is run as XPath. The __store__
+- If a _select_ attribute is present, its content is run as XPath. The `store`
 element allows choosing a _type_ for the value to be converted to, if needed,
 before setting the property (string, boolean, node, nodeset, number). The
 default _type_ is "string".
-- If an _idref_ attribute is present, the referenced node (usually a __sym__ or
-__exp__) is located and evaluated, not writing the result to the program output,
+- If an _idref_ attribute is present, the referenced node (usually a `sym` or
+`exp`) is located and evaluated, not writing the result to the program output,
 but capturing it, converted to the selected _type_ and finally stored in the 
 specified _property_.
 - If none of the above attributes are present, the nested mixed content is
 evaluated and captured, converted to the selected _type_ and stored in the 
 specified _property_.
 
-To recall the value of a property, the __eval__ element uses the _property_ attribute
+To recall the value of a property, the `eval` element uses the _property_ attribute
 (alternative to _idref_, which is used for calling evaluable nodes). 
 
 
@@ -269,7 +299,7 @@ will be printed as the value kept in the "foo" property.
 
 	<lol:store property="bottles" select="$bottles - 1" type="number" />
 ```
-The value of the &lt<start&gt; node under __data__ is put in the property "bottles", 
+The value of the &lt<start&gt; node under `data` is put in the property "bottles", 
 and it's then decreased by 1.
 
 
@@ -278,7 +308,7 @@ XPath extension functions
 
 LolXML defines two extension functions for XPath.
 
-*random()*
+**random()**
 
 The _random()_ function is an XPath extension provided by LolXML. It provides
 three modes of use:
@@ -289,9 +319,9 @@ three modes of use:
 
 We made our grammar simpler using _lol:random(10)_ to generate digits, and 
 _random(signs/sign)_ to pick the random operator (in replacement of the syntactically 
-heavier __switch__/__case__ structure).
+heavier `switch`/`case` structure).
 
-*evaluate()*
+**evaluate()**
 
 The function _evaluate(string)_, calls evaluable nodes (referenced 
 by their _id_ attribute) from an XPath expression. It works like an &lteval idref="..."/&gt;
@@ -304,7 +334,7 @@ The above command would search the document for an evaluable element whose
 _id_ is "TXT", evaluate it and normalize its whitespace before it's printed to the
 output stream.
 
-_evaluate()_ can be passed a string, or a path to a node under __data__. In the latter
+_evaluate()_ can be passed a string, or a path to a node under `data`. In the latter
 case, it will call the element whose id is the text content of the referenced node.  
 
 Procedural control: if, foreach and while
@@ -317,17 +347,19 @@ some property (selecting a pronoun or verbal form).
 
 The LolXML schema includes tags for imperative flow control:
  
-- __if__: Conditional evaluator. Evaluates its nested content if its _test_
+- `if`: Conditional evaluator. Evaluates its nested content if its _test_
 condition is true. Test condition may be specified by inline boolean XPath 
-(if a _test_ attribute is present), referencing an __exp__ (if _idref_ is present)
+(if a _test_ attribute is present), referencing an `exp` (if _idref_ is present)
  or recalling a runtime property (if _property_ is present).
 
+```xml
 	<lol:if test="$bottles > 2"><lol:eval idref="VERSES"/></lol:if></lol:sym>
-	
-- __foreach__: Nodeset iterator. Evaluates its nested content, one time for each node
+```
+
+- `foreach`: Nodeset iterator. Evaluates its nested content, one time for each node
 in the set. The current node is exposed as a runtime property (declared by the
 _var_ attribute). The nodeset to iterate may be selected using inline XPath 
-(if the _select_ attribute is present), referencing an __exp__ (if _idref_ is present) or
+(if the _select_ attribute is present), referencing an `exp` (if _idref_ is present) or
 recalling a runtime property (if _property_ is present).
 
 ```xml
@@ -343,9 +375,9 @@ recalling a runtime property (if _property_ is present).
 
 ```
 
-- __while__: Conditional loop. Evaluates its nested content while the test condition
+- `while`: Conditional loop. Evaluates its nested content while the test condition
 is true. Condition may be specified by inline boolean XPath (if a _test_ attribute is
-present), by a referenced boolean __exp__ (if _idref_ attribute is present) or recalling 
+present), by a referenced boolean `exp` (if _idref_ attribute is present) or recalling 
 a runtime property (if _property_ is present). 
 
 ```xml
