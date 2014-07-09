@@ -34,7 +34,7 @@ public class XPathFunctionRandom implements XPathFunction {
 	 * <li>random(): returns a floating-point number between 0.0 and 1.0.</li>
 	 * <li>random(num): integer between 0 (inclusive) and num (exclusive).</li>
 	 * <li>random(nodeset): picks a random node from the set.</li>
-	 * </ul
+	 * </ul>
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
