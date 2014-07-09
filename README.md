@@ -2,7 +2,7 @@
 LolXML
 ======
 
-A Java library to generate rule-based random text defined specified in 
+A Java library to generate text based on grammars defined in 
 XML. It intends to provide a powerful, flexible framework for automated 
 comedy (think generators of band names, corporate-speak or Dan Brown plots).
 
