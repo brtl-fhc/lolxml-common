@@ -36,7 +36,7 @@ Command line
 The output artifact is standalone runnable. it's recommended to try it with the 
 provided examples or the unit tests.
 
-	java -jar target/lolxml-common-&lt;version&gt;.jar examples/math-basic.xml 
+	java -jar target/lolxml-common-<version>.jar examples/math-basic.xml 
 
 API
 ---
