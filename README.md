@@ -27,7 +27,7 @@ To compile and package a LolXML binary with Maven:
 	mvn package
 
 If the build is successful, find the generated archive 
-on test/lolxml-common-&lt;version&gt;.jar
+on target/lolxml-common-&lt;version&gt;.jar
 
 
 Command line
