@@ -115,4 +115,53 @@ public class BaseTest extends TestCase
     	String s=run("/func-evaluate-test.xml");
     	System.out.println(s);
     }
+    
+    private class ThreadedRunner implements Runnable{
+    	Grammar g;
+    	boolean bResult = true;
+    	
+    	public ThreadedRunner(Grammar g) { this.g = g; }
+    	
+    	@Override
+    	public void run() {
+    		for (int i=0; i<100;i++){
+	    		StringWriter sw=new StringWriter();
+	    		g.doGenerate(sw);
+	    		if (!validThreadedResult(sw.toString())){
+	    			bResult=false;
+	    			break;
+	    		}
+    		}
+    	}
+    	
+        private boolean validThreadedResult(String s){
+        	boolean bRet= "1111111111111111111111111".equals(s) 
+        			|| "2222222222222222222222222".equals(s) 
+        			|| "3333333333333333333333333".equals(s);
+        	if (!bRet){
+        		System.err.println(s);
+        	}
+        	return bRet;
+        }
+    }
+    
+    
+    public void testThreadsafe() throws Exception{
+		Grammar root=LolXML.load(getClass().getResourceAsStream("/threadsafe-test.xml"), true);
+		
+		ThreadedRunner[] runners=new ThreadedRunner[20];
+		Thread[] threads=new Thread[20];
+
+		for (int i=0;i<runners.length; i++){
+			runners[i]=new ThreadedRunner(root);
+			threads[i]=new Thread(runners[i]);
+			threads[i].start();
+		}
+		for (int i=0;i<runners.length; i++){
+			threads[i].join();
+			assertTrue(runners[i].bResult);
+		}
+    }
+
+
 }

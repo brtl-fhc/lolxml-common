@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://lolxml.org http://lolxml.org ">
+
+    <data>
+  		<ns xmlns=""><n>1</n><n>2</n><n>3</n></ns>
+  	</data>
+
+	<exp id="RND" value="lol:random(ns/n)"/>
+    
+  	<sym id="CHARS"><store property="val"><eval idref="RND"/></store><eval 
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/><eval property="val"/><eval
+		property="val"/></sym>   
+
+    <!-- Evaluate root production: -->
+
+    <eval idref="CHARS"/>  
+
+</grammar>
