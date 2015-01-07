@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.lolxml.node;
 
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Node;
 
@@ -36,8 +37,8 @@ public class Exp extends GrammarNode {
 	}
 	
 	@Override
-	protected void eval(Writer out) {
-		String s=getGrammar().getXPathEvaluator().evalAsString(value);
+	protected void eval(EvaluationContext ctx, Writer out) {
+		String s=getGrammar().getXPathEvaluator(ctx).evalAsString(value);
 		try{
 			out.write(s);
 		}catch(Exception e){
@@ -46,10 +47,10 @@ public class Exp extends GrammarNode {
 	}
 	
 	/** Evaluate Exp using specific return type */
-	Object call(String type){
+	Object call(String type, EvaluationContext ctx){
 		Object oRet=null;
 		try{
-			XPathEvaluator xEv=getGrammar().getXPathEvaluator();
+			XPathEvaluator xEv=getGrammar().getXPathEvaluator(ctx);
 			oRet=xEv.evalExpType(value, type);
 		}catch(Exception e){
 			e.printStackTrace();

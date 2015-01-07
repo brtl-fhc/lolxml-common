@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.lolxml.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.w3c.dom.Node;
 
 /**
@@ -38,25 +39,25 @@ public class While extends GrammarNode {
 		this.mixed=true;
 	}
 	
-	private boolean runTest(){
+	private boolean runTest(EvaluationContext ctx){
 		boolean bResult=false;
 		if (test!=null){
-			bResult=getGrammar().getXPathEvaluator().evalAsBoolean(test);
+			bResult=getGrammar().getXPathEvaluator(ctx).evalAsBoolean(test);
 		}else if(property!=null){
-			bResult = (Boolean)getGrammar().getProperty(property);
+			bResult = (Boolean)ctx.getProperty(property);
 		}else if (idref!=null){
 			GrammarNode gn=getGrammar().getReference(idref);
 			if (gn!=null && TAG_EXP.equals(gn.xmlNode.getLocalName())){
-				bResult = (Boolean)((Exp)gn).call(TYPE_BOOLEAN);
+				bResult = (Boolean)((Exp)gn).call(TYPE_BOOLEAN,ctx);
 			}
 		}
 		return bResult;
 	}
 	
 	@Override
-	protected void eval(Writer out) throws IOException{
-		while (runTest()){
-			super.eval(out);
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
+		while (runTest(ctx)){
+			super.eval(ctx, out);
 		}
 	}
 

@@ -14,24 +14,30 @@
  *     limitations under the License.
  */
 
-package org.lolxml.node;
+package org.lolxml.node.eval;
 
-import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.lolxml.node.eval.EvaluationContext;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
-public class Data extends GrammarNode {
+public class EvaluationContext {
 
-	protected Data(Node xmlNode) {
-		super(xmlNode);
-		getGrammar().setData((Element)xmlNode);
-	}
+	private Map<String,Object> evaluationProperties = new HashMap<String,Object>();
 
-	@Override
-	protected void eval(EvaluationContext ctx, Writer out) {
-		// Can't execute data. Do nothing
+	public Map<String,Object> getEvaluationProperties(){
+		return evaluationProperties;
 	}
 	
+	public void putProperty(String sKey, Object value){
+		evaluationProperties.put(sKey, value);
+	}
+	
+	public Object getProperty(String sKey){
+		return evaluationProperties.get(sKey);
+	}
+	
+	/** Clear properties. */
+	public void reset(){
+		evaluationProperties.clear();
+	}
 }

@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package org.lolxml.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.w3c.dom.Node;
 
 public class Eval extends GrammarNode {
@@ -33,22 +34,22 @@ public class Eval extends GrammarNode {
 	}
 
 	@Override
-	protected void eval(Writer out) throws IOException{
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		if (idRef!=null){
-			evalRef(out);
+			evalRef(ctx, out);
 		}else if (property !=null){
-			evalProperty(out);
+			evalProperty(ctx, out);
 		}
 	}
 	
-	private void evalRef(Writer out) throws IOException{
+	private void evalRef(EvaluationContext ctx, Writer out) throws IOException{
 		GrammarNode gnRef=getGrammar().getReference(idRef);
 		if (gnRef!=null)
-			gnRef.eval(out);		
+			gnRef.eval(ctx, out);		
 	}
 
-	private void evalProperty(Writer out) throws IOException{
-		Object oVal=getGrammar().getProperty(property);
+	private void evalProperty(EvaluationContext ctx, Writer out) throws IOException{
+		Object oVal=ctx.getProperty(property);
 		out.write(String.valueOf(oVal));
 	}
 

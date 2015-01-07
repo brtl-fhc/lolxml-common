@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Node;
 
@@ -47,29 +48,29 @@ public class Store extends GrammarNode {
 	
 	/** Silent eval, stores inline XPath, IDREF result or nested content in property */
 	@Override
-	protected void eval(Writer out) throws IOException{
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		if (select!=null){
-			storeSelect();
+			storeSelect(ctx);
 		}else if (idRef!=null){
-			storeRef();
+			storeRef(ctx);
 		}else{
-			storeContent();
+			storeContent(ctx);
 		}
 	}
 	
 	/** Evaluate node and keep result for reference  */
-	private void storeRef() throws IOException{
+	private void storeRef(EvaluationContext ctx) throws IOException{
 		String sRef=getNodeAttribute(ATT_IDREF);
 		if (sRef!=null){
 			GrammarNode gnRef=getGrammar().getReference(sRef);
 			if (gnRef!=null){
 				String sTag=gnRef.xmlNode.getLocalName();
 				if (TAG_EXP.equals(sTag)){
-					getGrammar().putProperty(this.property,((Exp)gnRef).call(this.type));
+					ctx.putProperty(this.property,((Exp)gnRef).call(this.type,ctx));
 				}else if (TAG_SYM.equals(sTag)){
 					StringWriter sw=new StringWriter();
-					gnRef.eval(sw);
-					getGrammar().putProperty(this.property, sw.toString());
+					gnRef.eval(ctx, sw);
+					ctx.putProperty(this.property, sw.toString());
 				}
 			}
 		}else{
@@ -78,18 +79,18 @@ public class Store extends GrammarNode {
 	}
 	
 	/** Evaluate and keep nested content */
-	private void storeContent() throws IOException{
+	private void storeContent(EvaluationContext ctx) throws IOException{
 		StringWriter sw=new StringWriter();
-		super.eval(sw);
-		getGrammar().putProperty(this.property, sw.toString());
+		super.eval(ctx, sw);
+		ctx.putProperty(this.property, sw.toString());
 	}
 	
 	/** Evaluate inline XPath and store result */
-	private void storeSelect(){
+	private void storeSelect(EvaluationContext ctx){
 		try{
-			XPathEvaluator xEv=getGrammar().getXPathEvaluator();
+			XPathEvaluator xEv=getGrammar().getXPathEvaluator(ctx);
 			Object oRet=xEv.evalExpType(select, type==null? TYPE_STRING :type);
-			getGrammar().putProperty(this.property, oRet);
+			ctx.putProperty(this.property, oRet);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

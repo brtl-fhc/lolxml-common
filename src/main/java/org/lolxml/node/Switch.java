@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package org.lolxml.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.w3c.dom.Node;
 
 /**
@@ -32,10 +33,10 @@ public class Switch extends GrammarNode {
 	}
 
 	@Override
-	protected void eval(Writer out) throws IOException{
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		GrammarNode gn=children.get(getGrammar().getRandom().nextInt(children.size()));
 		if (gn!=null){
-			gn.eval(out);
+			gn.eval(ctx, out);
 		}
 	}
 

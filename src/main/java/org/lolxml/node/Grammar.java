@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.lolxml.node.xpath.ReferenceResolver;
 import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Element;
@@ -33,13 +34,11 @@ public class Grammar extends GrammarNode{
 	Random random;
 	Element data;
 	Map<String,GrammarNode> references;
-	Map<String,Object> documentProperties;
 	
 	protected Grammar(Node xmlNode){
 		super(xmlNode);
 		this.random=new Random();
 		this.references=new HashMap<String, GrammarNode>();
-		this.documentProperties=new HashMap<String,Object>();
 	};
 	
 	void setData(Element dataElement){
@@ -59,14 +58,14 @@ public class Grammar extends GrammarNode{
 		return random;
 	}
 	
-	public XPathEvaluator getXPathEvaluator(){
+	public XPathEvaluator getXPathEvaluator(final EvaluationContext ctx){
 		XPathEvaluator xpe=new XPathEvaluator();
-		xpe.init(this.data,documentProperties, new ReferenceResolver(){
+		xpe.init(this.data,ctx.getEvaluationProperties(), new ReferenceResolver(){
 			@Override
 			public String resolveReference(String sIdRef){
 				String sRet=null;
 				try{
-					sRet=evalReferenceAsString(sIdRef);
+					sRet=evalReferenceAsString(sIdRef,ctx);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -76,35 +75,24 @@ public class Grammar extends GrammarNode{
 		return xpe;
 	}
 	
-	/** Clear properties. */
-	private void reset(){
-		documentProperties.clear();
-	}
 	
 	@Override
-	protected void eval(Writer out) throws IOException{
-		reset();
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		// Execute last eval (should be only one)
 		NodeList nl=((Element)xmlNode).getElementsByTagNameNS(NAMESPACE,TAG_EVAL);
 		Element el=(Element)nl.item(nl.getLength()-1);
 		Eval eval=(Eval)el.getUserData(KEY_GRAMMARNODE);
 		if (eval!=null)
-			eval.eval(out);
+			eval.eval(ctx, out);
 	}
 
 	public void doGenerate(Writer w){
 		try{
-			eval(w);
+			eval(new EvaluationContext(), w);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	void putProperty(String sKey, Object value){
-		documentProperties.put(sKey, value);
-	}
-	
-	Object getProperty(String sKey){
-		return documentProperties.get(sKey);
-	}
+
 }

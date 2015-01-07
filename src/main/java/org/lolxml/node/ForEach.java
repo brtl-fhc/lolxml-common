@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package org.lolxml.node;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.lolxml.node.xpath.NodeListIterator;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -45,28 +46,28 @@ public class ForEach extends GrammarNode {
 	}
 	
 	@Override
-	protected void eval(Writer out) throws IOException{
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		NodeList items=null;
 		if (select!=null){
-			items=getGrammar().getXPathEvaluator().evalAsNodeList(select);
+			items=getGrammar().getXPathEvaluator(ctx).evalAsNodeList(select);
 		}else if(property!=null){
-			Object oVal=getGrammar().getProperty(property);
+			Object oVal=ctx.getProperty(property);
 			if (oVal!=null && oVal instanceof NodeList){
 				items=(NodeList)oVal;
 			}
 		}else if (idref!=null){
 			GrammarNode gn=getGrammar().getReference(idref);
 			if (gn!=null && TAG_EXP.equals(gn.xmlNode.getLocalName())){
-				items = (NodeList)((Exp)gn).call(TYPE_NODESET);
+				items = (NodeList)((Exp)gn).call(TYPE_NODESET,ctx);
 			}
 		}
 		if (items!=null && items.getLength()>0){
-			Object oldVar=getGrammar().getProperty(var);
+			Object oldVar=ctx.getProperty(var);
 			for (Node node : new NodeListIterator(items)) {
-				getGrammar().putProperty(var, node);
-				super.eval(out);
+				ctx.putProperty(var, node);
+				super.eval(ctx, out);
 			}
-			getGrammar().putProperty(var, oldVar);
+			ctx.putProperty(var, oldVar);
 		}
 	}
 

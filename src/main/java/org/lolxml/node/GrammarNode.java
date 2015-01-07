@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lolxml.Constants;
+import org.lolxml.node.eval.EvaluationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -123,10 +124,10 @@ public abstract class GrammarNode implements Constants{
 		return (Grammar)xmlNode.getOwnerDocument().getDocumentElement().getUserData(KEY_GRAMMARNODE);
 	}
 	
-	protected void eval(Writer out) throws IOException{
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		for (GrammarNode gn : children){
 			if (gn.isAutoEval()){
-				gn.eval(out);
+				gn.eval(ctx, out);
 			}
 		}
 	}
@@ -147,12 +148,12 @@ public abstract class GrammarNode implements Constants{
 		return sRet;
 	}
 	
-	protected String evalReferenceAsString(String idref) throws IOException{
+	protected String evalReferenceAsString(String idref, EvaluationContext ctx) throws IOException{
 		String sRet=null;
 		GrammarNode gnRef=getGrammar().getReference(idref);
 		if (gnRef!=null){
 			StringWriter sw=new StringWriter();
-			gnRef.eval(sw);
+			gnRef.eval(ctx, sw);
 			sRet=sw.toString();
 		}
 		return sRet;

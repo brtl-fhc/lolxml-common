@@ -1,5 +1,5 @@
 /* 
- * Copyright 2014 the original author or authors
+ * Copyright 2015 the original author or authors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.lolxml.node;
 
 import java.io.Writer;
 
+import org.lolxml.node.eval.EvaluationContext;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -43,10 +44,10 @@ public class ForeignTag extends GrammarNode {
 	}
 	
 	@Override
-	protected void eval(Writer out) {
+	protected void eval(EvaluationContext ctx, Writer out) {
 		try{
 			out.write("<"+xmlNode.getLocalName()+printAttributes()+">");
-			super.eval(out);
+			super.eval(ctx, out);
 			out.write("</"+xmlNode.getLocalName()+">");
 		}catch(Exception e){
 			e.printStackTrace();
