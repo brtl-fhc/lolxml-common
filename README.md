@@ -312,7 +312,7 @@ will be printed as the value kept in the "foo" property.
 	<lol:store property="bottles" select="$bottles - 1" type="number" />
 ```
 
-The value of the &lt<start&gt; node under `data` is put in the property "bottles", 
+The value of the `start` node under `data` is put in the property "bottles", 
 and it's then decreased by 1.
 
 
@@ -337,7 +337,7 @@ heavier `switch`/`case` structure).
 **evaluate()**
 
 The function _evaluate(string)_, calls evaluable nodes (referenced 
-by their _id_ attribute) from an XPath expression. It works like an &lt;eval idref="..."/&gt;
+by their _id_ attribute) from an XPath expression. It works like an `&lt;eval idref="..."/&gt;`
 in a expression context. For example:
 
 ```xml
