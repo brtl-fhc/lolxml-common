@@ -337,7 +337,7 @@ heavier `switch`/`case` structure).
 **evaluate()**
 
 The function _evaluate(string)_, calls evaluable nodes (referenced 
-by their _id_ attribute) from an XPath expression. It works like an `&lt;eval idref="..."/&gt;`
+by their _id_ attribute) from an XPath expression. It works like an `<eval idref="..."/>;`
 in a expression context. For example:
 
 ```xml
