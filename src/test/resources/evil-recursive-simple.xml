@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+  <data/>
+    
+  <sym id="ROOT"><eval idref="ROOT"/></sym>
+      
+  <eval idref="ROOT"/>
+</grammar>
