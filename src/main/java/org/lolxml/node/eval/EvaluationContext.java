@@ -16,14 +16,19 @@
 
 package org.lolxml.node.eval;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/** Keeps evaluation state (properties, elapsed time) */
 public class EvaluationContext {
 
 	private Map<String,Object> evaluationProperties = new HashMap<String,Object>();
 
+	private long startMs = System.currentTimeMillis();
+	
+	private long timeoutMs = -1;
+	
 	public Map<String,Object> getEvaluationProperties(){
 		return evaluationProperties;
 	}
@@ -34,6 +39,23 @@ public class EvaluationContext {
 	
 	public Object getProperty(String sKey){
 		return evaluationProperties.get(sKey);
+	}
+		
+	public void onEval() throws IOException{
+		checkTime(startMs, timeoutMs);
+	}
+	
+	private void checkTime(long start, long timeoutMs) throws IOException{
+		if (timeoutMs>0){
+			long current = System.currentTimeMillis();
+			if (current - start >= timeoutMs){
+				throw new IOException("Timeout: "+timeoutMs+" ms");
+			}
+		}
+	}
+	
+	public EvaluationContext(long timeoutMs){
+		this.timeoutMs = timeoutMs;
 	}
 	
 	/** Clear properties. */

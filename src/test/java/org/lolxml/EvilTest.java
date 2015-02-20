@@ -61,7 +61,7 @@ public class EvilTest extends TestCase{
 		final Grammar root=LolXML.load(getClass().getResourceAsStream(sPath), true);
 		Runnable r = new Runnable(){
 			public void run() {
-				root.doGenerate(writer);
+				root.doGenerate(writer, timeoutMs/2, 10*1024);
 			};
 		};
 		Thread t = new Thread(r);
@@ -87,5 +87,10 @@ public class EvilTest extends TestCase{
     public void testInfiniteLoopSilent() throws Exception
     {
     	run("/evil-infinite-loop-silent.xml");
+    }
+    
+    public void testRecursiveExp() throws Exception
+    {
+    	run("/evil-recursive-exp.xml");
     }
 }

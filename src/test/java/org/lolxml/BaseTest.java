@@ -21,6 +21,7 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.lolxml.node.Grammar;
+import org.lolxml.node.eval.OutputWriter;
 
 public class BaseTest extends TestCase
 {
@@ -32,10 +33,12 @@ public class BaseTest extends TestCase
 	private String run(String sPath){
 		String sRet=null;
 		try{
-			StringWriter sw=new StringWriter();
+			StringWriter sw = new StringWriter();
+			OutputWriter out=new OutputWriter(sw);
 			Grammar root=LolXML.load(getClass().getResourceAsStream(sPath), true);
-			root.doGenerate(sw);
+			root.doGenerate(out);
 			sRet= sw.toString();
+			assertEquals(sRet.length(), out.getSize());
 		}catch(Exception e){
 			e.printStackTrace();
 			fail(e.toString());

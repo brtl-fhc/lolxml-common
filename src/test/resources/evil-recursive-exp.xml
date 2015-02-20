@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://lolxml.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lolxml.org ../../main/resources/lolxml.xsd ">
+
+  <data/>
+  <exp id="exp1" value="lol:evaluate('exp2')"/>
+  <exp id="exp2" value="lol:evaluate('exp1')"/>
+  
+  
+  <sym id="ROOT">
+  	<store property="infinite"  select="lol:evaluate('exp1')"/>
+  </sym>
+      
+  <eval idref="ROOT"/>
+</grammar>

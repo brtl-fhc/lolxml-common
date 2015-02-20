@@ -57,6 +57,7 @@ public class While extends GrammarNode {
 	@Override
 	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
 		while (runTest(ctx)){
+			ctx.onEval();
 			super.eval(ctx, out);
 		}
 	}

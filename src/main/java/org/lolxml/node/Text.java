@@ -16,6 +16,7 @@
 
 package org.lolxml.node;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.lolxml.node.eval.EvaluationContext;
@@ -28,12 +29,8 @@ public class Text extends GrammarNode {
 	}
 	
 	@Override
-	protected void eval(EvaluationContext ctx, Writer out) {
-		try{
-			out.write(xmlNode.getNodeValue());
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+	protected void eval(EvaluationContext ctx, Writer out) throws IOException{
+		out.write(xmlNode.getNodeValue());
 	}
 
 }

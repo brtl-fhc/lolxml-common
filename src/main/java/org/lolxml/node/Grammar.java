@@ -23,12 +23,14 @@ import java.util.Map;
 import java.util.Random;
 
 import org.lolxml.node.eval.EvaluationContext;
+import org.lolxml.node.eval.OutputWriter;
 import org.lolxml.node.xpath.ReferenceResolver;
 import org.lolxml.node.xpath.XPathEvaluator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/** Root node and evaluation start point */
 public class Grammar extends GrammarNode{
 	
 	Random random;
@@ -87,8 +89,22 @@ public class Grammar extends GrammarNode{
 	}
 
 	public void doGenerate(Writer w){
+		doGenerate(w, 0, 0);
+	}
+	
+	/**
+	 * 
+	 * @param w Output writer
+	 * @param timeOutMs Timeout in milliseconds (0 = no timeout)
+	 * @param maxOutputChars Output buffer limit (0 = no limit)
+	 */
+	public void doGenerate(Writer w, int timeOutMs, int maxOutputChars){
 		try{
-			eval(new EvaluationContext(), w);
+			OutputWriter out = new OutputWriter(w);
+			if (maxOutputChars>=0){
+				out.setCapacity(maxOutputChars);
+			}
+			eval(new EvaluationContext(timeOutMs), new OutputWriter(out));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
