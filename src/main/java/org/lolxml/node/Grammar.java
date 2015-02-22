@@ -107,6 +107,7 @@ public class Grammar extends GrammarNode{
 			eval(new EvaluationContext(timeOutMs), new OutputWriter(out));
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
